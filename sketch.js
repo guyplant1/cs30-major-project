@@ -6,7 +6,11 @@
 // - describe what you did to take this project "above and beyond"
 
 let boxX = 10;
-let boxY = 10;
+const BOX_Y = 0;
+let boxZ = 10;
+let cylX = 100;
+const CYL_Y = 0;
+let cylZ = 100;
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
@@ -18,20 +22,33 @@ function draw() {
 
   //circle(mouseX, mouseY, 100);
   orbitControl();
-  box(50, 50, 50, boxX, boxY);
+  playerDisplay();
+  gameBorder();
 }
 
-function mousePressed() {
+function keyPressed() {
   if (key === "w") {
-    boxY += 1;
+    boxZ -= 100;
   }
   if (key === "a") {
-    boxX -= 1;
+    boxX -= 100;
   }
   if (key === "s") {
-    boxY -= 1;
+    boxZ += 100;
   }
   if (key === "d") {
-    boxX += 1;
+    boxX += 100;
   }
+}
+
+function playerDisplay() {
+  translate(boxX, BOX_Y, boxZ);
+  fill("red");
+  box();
+}
+
+function gameBorder() {
+  translate(cylX, CYL_Y, cylZ);
+  fill("orange");
+  box();
 }
