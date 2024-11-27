@@ -99,8 +99,11 @@ function generateGrid(cols, rows) {
 
 function displayGrid() {
   //let color = 0;
-  for (let y = 0; y < 5; y++) {
-    for (let x = 0; x < 5; x++) {
+  let bw = 20;
+  let bh = 10;
+  let bd = 1;
+  for (let y = 0; y < 1; y++) {
+    for (let x = 0; x < 1; x++) {
       // if (gameGrid[y][x] === 0) {
       //   fill("black");
       // }
@@ -119,8 +122,16 @@ function displayGrid() {
       //   box(boxX * cellSize, BOX_Y * cellSize, boxZ * cellSize);
       //   colorState = "red";
       // }
-      fill("orange");
-      box(boxX * cellSize, BOX_Y * cellSize, boxZ * cellSize);
+      if (y === 0) {
+        fill("orange");
+      }
+      else if (y === 1) {
+        fill("green");
+      }
+      box(bw * cellSize, bh * cellSize, bd * cellSize);
+      bw += 5;
+      bh += 5;
+      bd += 5;
     }
   }
 }
