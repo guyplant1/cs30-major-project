@@ -29,7 +29,8 @@ function draw() {
   //playerDisplay();
   //gameBorder();
   //sphereDisplay();
-  displayGrid();
+  //displayGrid();
+  box(25, 25, 25, 2, 100);
 }
 
 function keyPressed() {
