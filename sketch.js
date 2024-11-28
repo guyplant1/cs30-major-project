@@ -5,12 +5,19 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-const BOX_Y = 0;
+// I'm thinking to change the project to a flat view and 2D game, but still have the same details for the rest mostly (for ideas).
+
 const CYL_Y = 0;
+let boxY = 0;
 let boxX = 10;
 let boxZ = 10;
 let cylX = 100;
 let cylZ = 100;
+
+let camX = 0;
+let camY = -300;
+let camZ = 100;
+
 let gameGrid;
 let cellSize;
 let colorState = "red";
@@ -19,23 +26,26 @@ function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
   debugMode();
   cellSize = height/12;
-  gameGrid = generateGrid(boxX, BOX_Y);
+  gameGrid = generateGrid(boxX, boxY);
 }
 
 function draw() {
   background(220);
   //circle(mouseX, mouseY, 100);
-  orbitControl();
-  //playerDisplay();
+  //orbitControl();
+  playerDisplay();
+  camera(camX, camY, camZ);
+  square(100, 200, 25);
   //gameBorder();
   //sphereDisplay();
   //displayGrid();
-  box(25, 25, 25, 2, 100);
+  //box(25, 125, 25, 2, 100);
 }
 
 function keyPressed() {
   if (key === "w") {
     boxZ -= 100;
+    //camZ -= 100;
   }
   if (key === "a") {
     boxX -= 100;
@@ -46,10 +56,16 @@ function keyPressed() {
   if (key === "d") {
     boxX += 100;
   }
+  if (key === " ") {
+    boxY -= 100;
+  }
+  if (key === "1") {
+    boxY += 100;
+  }
 }
 
 function playerDisplay() {
-  translate(boxX, BOX_Y, boxZ);
+  translate(boxX, boxY, boxZ);
   fill("red");
   box();
 }
