@@ -7,6 +7,124 @@
 
 // I'm thinking to change the project to a flat view and 2D game, but still have the same details for the rest mostly (for ideas).
 
+
+// class Player {
+//   constructor(squareX, squareY, squareSize, color) {
+//     this.x = squareX;
+//     this.y = squareY;
+//     this.size = squareSize;
+//     this.color = color;
+//   }
+
+//   display() {
+//     fill("red");
+//     square(this.x, this.y, this.size);
+//   }
+// }
+
+
+let squareX = 100;
+let squareY = 100;
+let squareSize = 50;
+
+let circleX;
+let circleY;
+let circleDiameter = 50;
+
+let opponentArray = [];
+let laserArray = [];
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noStroke();
+  circleX = windowWidth/2 + 200;
+  circleY = windowHeight/2 + 200;
+}
+
+function draw() {
+  background(220);
+  //circle(mouseX, mouseY, 20);
+  displayOpponents();
+  displayPlayer();
+  movementWASD();
+  //drawLazer();
+}
+
+
+// This function displays the opponents -- planned to be in the thought of later levels.
+function displayOpponents() {
+  fill("green");
+  circle(circleX, circleY, circleDiameter);
+}
+
+
+// This function displays the player.
+function displayPlayer() {
+  fill("red");
+  square(squareX, squareY, squareSize);
+}
+
+
+// This function allows the player to move the red square character on the screen by WASD key pressing.
+function movementWASD() {
+  if (keyIsDown(87) === true) { //w
+    squareY -= 10;
+  }
+
+  if (keyIsDown(65) === true) { //a
+    squareX -= 10;
+  }
+
+  if (keyIsDown(83) === true) { //s
+    squareY += 10;
+  }
+
+  if (keyIsDown(68) === true) { //d
+    squareX += 10;
+  }
+
+  if (keyIsDown(38) === true) { //up arrow
+    fill("red");
+    square(mouseX, mouseY, squareSize);
+    text("click", mouseX, mouseY);
+    console.log("click");
+  }
+
+  if (keyIsDown(37) === true) { //left arrow
+    fill("red");
+    square(mouseX, mouseY, squareSize);
+    text("click", mouseX, mouseY);
+    console.log("click");
+  }
+
+  if (keyIsDown(40) === true) { //down arrow
+    fill("red");
+    square(mouseX, mouseY, squareSize);
+    text("click", mouseX, mouseY);
+    console.log("click");
+  }
+
+  if (keyIsDown(39) === true) { //right arrow
+    fill("red");
+    square(mouseX, mouseY, squareSize);
+    text("click", mouseX, mouseY);
+    console.log("click");
+  }
+  // if (key === " ") {
+  // }
+}
+
+
+// function drawLazer() {
+//   if (mouseIsPressed === true) {
+//     fill("red");
+//     square(mouseX, mouseY, squareSize);
+//     text("click", mouseX, mouseY);
+//     console.log("click");
+//   }
+// }
+
+
 // const CYL_Y = 0;
 // let boxY = 0;
 // let boxX = 10;
@@ -151,135 +269,4 @@
 //       bd += 5;
 //     }
 //   }
-// }
-
-let squareX = 100;
-let squareY = 100;
-let squareSize = 50;
-
-let circleX;
-let circleY;
-let circleDiameter = 50;
-
-let opponentArray = [];
-
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noStroke();
-  circleX = windowWidth/2 + 200;
-  circleY = windowHeight/2 + 200;
-}
-
-function draw() {
-  background(220);
-  //circle(mouseX, mouseY, 20);
-  displayOpponents();
-  displayPlayer();
-  movementWASD();
-  drawLazer();
-}
-
-
-// This function displays the opponents -- planned to be in the thought of later levels.
-function displayOpponents() {
-  fill("green");
-  circle(circleX, circleY, circleDiameter);
-}
-
-
-// This function displays the player.
-function displayPlayer() {
-  fill("red");
-  square(squareX, squareY, squareSize);
-}
-
-
-// This function allows the player to move the red square character on the screen by WASD key pressing.
-function movementWASD() {
-  if (keyIsDown(87) === true) { //w
-    squareY -= 10;
-  }
-
-  if (keyIsDown(65) === true) { //a
-    squareX -= 10;
-  }
-
-  if (keyIsDown(83) === true) { //s
-    squareY += 10;
-  }
-
-  if (keyIsDown(68) === true) { //d
-    squareX += 10;
-  }
-
-  // if (key === " ") {
-  // }
-}
-
-
-// function mousePressed() {
-//   fill("red");
-//   square(mouseX, mouseY, squareSize);
-//   text("click", mouseX, mouseY);
-//   console.log("click");
-// }
-
-
-function drawLazer() {
-  if (mouseIsPressed === true) {
-    fill("red");
-    square(mouseX, mouseY, squareSize);
-    text("click", mouseX, mouseY);
-    console.log("click");
-  }
-}
-
-
-// Two ctrl / s to uncomment inside keyPressed() code
-
-// function keyPressed() {
-//   // if (key) {
-//   //   fill("yellow");
-//   //   square(squareX, squareY, squareSize);
-//   //   console.log("up");
-//   // }
-
-//   // if (keyCode === LEFT_ARROW) {
-//   //   rect(squareX + 100, squareY + 100, squareSize, squareSize + 50);
-//   //   console.log("left");
-//   // }
-
-//   // if (keyCode === DOWN_ARROW) {
-//   //   rect(squareX + 100, squareY + 100, squareSize, squareSize + 50);
-//   //   console.log("down");
-//   // }
-
-//   // if (keyCode === RIGHT_ARROW) {
-//   //   rect(squareX + 100, squareY + 100, squareSize, squareSize + 50);
-//   //   console.log("right");
-//   // }
-
-//   // if (keyIsDown(38) === true) { //up arrow
-//   //   fill("red");
-//   //   rect(windowWidth/2, windowHeight/2, squareSize);
-//   //   console.log("up");
-//   // }
-
-//   // if (keyIsDown(37) === true) { //left arrow
-//   //   fill("red");
-//   //   rect(windowWidth/2, windowHeight/2, squareSize);
-//   //   console.log("left");
-//   // }
-
-//   // if (keyIsDown(40) === true) { //down arrow
-//   //   fill("red");
-//   //   rect(windowWidth/2, windowHeight/2, squareSize);
-//   //   console.log("down");
-//   // }
-
-//   // if (keyIsDown(39) === true) { //right arrow
-//   //   fill("red");
-//   //   rect(windowWidth/2, windowHeight/2, squareSize);
-//   //   console.log("right");
-//   // }
 // }
