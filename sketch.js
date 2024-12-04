@@ -27,12 +27,37 @@ let squareX = 100;
 let squareY = 100;
 let squareSize = 50;
 
+const LEFT_AND_RIGHT_LASER_WIDTH = 200;
+const UP_AND_DOWN_LASER_HEIGHT = 200;
+const UP_AND_DOWN_LASER_WIDTH = 20;
+const LEFT_AND_RIGHT_LASER_HEIGHT = 20;
+
 let circleX;
 let circleY;
 let circleDiameter = 50;
 
 let opponentArray = [];
 let laserArray = [];
+
+
+class Laser {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.r = 255;
+    this.g = 0;
+    this.b = 0;
+    this.opacity = 255;
+  }
+
+  display() {
+    fill(this.r, this.g, this.b, this.opacity);
+    rect(this.x, this.y, this.w, this.h);
+  }
+}
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -65,7 +90,7 @@ function displayPlayer() {
 }
 
 
-// This function allows the player to move the red square character on the screen by WASD key pressing.
+// This function allows the player to move the red square character on the screen by WASD key pressing. -- Also, the player is planned to have a laser attack by using the arrow keys.
 function movementWASD() {
   if (keyIsDown(87) === true) { //w
     squareY -= 10;
@@ -84,34 +109,70 @@ function movementWASD() {
   }
 
   if (keyIsDown(38) === true) { //up arrow
-    fill("red");
-    square(mouseX, mouseY, squareSize);
-    text("click", mouseX, mouseY);
-    console.log("click");
+    // fill("red");
+    // square(mouseX, mouseY, squareSize);
+    // text("click", mouseX, mouseY);
+    // console.log("click");
+    laserProjectile("up");
   }
 
   if (keyIsDown(37) === true) { //left arrow
-    fill("red");
-    square(mouseX, mouseY, squareSize);
-    text("click", mouseX, mouseY);
-    console.log("click");
+    // fill("red");
+    // square(mouseX, mouseY, squareSize);
+    // text("click", mouseX, mouseY);
+    // console.log("click");
+    laserProjectile("left");
   }
 
   if (keyIsDown(40) === true) { //down arrow
-    fill("red");
-    square(mouseX, mouseY, squareSize);
-    text("click", mouseX, mouseY);
-    console.log("click");
+    // fill("red");
+    // square(mouseX, mouseY, squareSize);
+    // text("click", mouseX, mouseY);
+    // console.log("click");
+    laserProjectile("down");
   }
 
   if (keyIsDown(39) === true) { //right arrow
-    fill("red");
-    square(mouseX, mouseY, squareSize);
-    text("click", mouseX, mouseY);
-    console.log("click");
+    // fill("red");
+    // square(mouseX, mouseY, squareSize);
+    // text("click", mouseX, mouseY);
+    // console.log("click");
+    laserProjectile("right");
   }
   // if (key === " ") {
   // }
+}
+
+
+//
+function laserProjectile(laserDirection) {
+  if (laserDirection === "up") {
+    let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT);
+    laserArray.push(playerLaser);
+
+  }
+
+  if (laserDirection === "left") {
+    // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
+    let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+    laserArray.push(playerLaser);
+  }
+
+  if (laserDirection === "down") {
+    // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
+    let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT);
+    laserArray.push(playerLaser);
+  }
+
+  if (laserDirection === "right") {
+    // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
+    let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+    laserArray.push(playerLaser);
+  }
+
+  for (let laser of laserArray) {
+    laser.display();
+  }
 }
 
 
