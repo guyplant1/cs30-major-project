@@ -41,11 +41,12 @@ let laserArray = [];
 
 
 class Laser {
-  constructor(x, y, w, h) {
+  constructor(x, y, w, h, arrowedDirection) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+    this.laserDirection = arrowedDirection;
     this.dx = 5;
     this.dy = 5;
     this.r = 255;
@@ -59,20 +60,21 @@ class Laser {
     rect(this.x, this.y, this.w, this.h);
   }
 
-  move(laserDirection) {
-    if (laserDirection === "up") {
+  move() {
+    if (this.laserDirection === "up") {
       this.y -= this.dy;
+      console.log("move");
     }
 
-    if (laserDirection === "left") {
+    if (this.laserDirection === "left") {
       this.x -= this.dx;
     }
 
-    if (laserDirection === "down") {
+    if (this.laserDirection === "down") {
       this.y += this.dy;
     }
 
-    if (laserDirection === "right") {
+    if (this.laserDirection === "right") {
       this.x += this.dx;
     }
   }
@@ -112,6 +114,10 @@ function draw() {
   displayPlayer();
   movementWASD();
   //drawLazer();
+  for (let laser of laserArray) {
+    laser.move();
+    laser.display();
+  }
 }
 
 
@@ -184,33 +190,33 @@ function movementWASD() {
 
 
 //
-function laserProjectile(laserDirection) {
-  if (laserDirection === "up") {
-    let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT);
-    laserArray.push(playerLaser);
-    playerLaser.display();
-    playerLaser.move(laserDirection);
-  }
-
-  if (laserDirection === "left") {
-    // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
-    let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+function laserProjectile(arrowedDirection) {
+  if (arrowedDirection === "up") {
+    let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
     // playerLaser.display();
     // playerLaser.move(laserDirection);
   }
 
-  if (laserDirection === "down") {
+  if (arrowedDirection === "left") {
     // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
-    let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT);
+    let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
     // playerLaser.display();
     // playerLaser.move(laserDirection);
   }
 
-  if (laserDirection === "right") {
+  if (arrowedDirection === "down") {
     // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
-    let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+    let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT, arrowedDirection);
+    laserArray.push(playerLaser);
+    // playerLaser.display();
+    // playerLaser.move(laserDirection);
+  }
+
+  if (arrowedDirection === "right") {
+    // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
+    let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
     // playerLaser.display();
     // playerLaser.move(laserDirection);
