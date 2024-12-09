@@ -7,6 +7,9 @@
 
 // I'm thinking to change the project to a flat view and 2D game, but still have the same details for the rest mostly (for ideas).
 
+// Plans: 1. Opponents' actions  2. Laser collison with opponents  3. Start screen  4. Game over screen  5. Player HP system
+// 6. Make level map  7. Video cutscenes  --8. Laser border
+
 
 // class Player {
 //   constructor(squareX, squareY, squareSize, color) {
@@ -21,6 +24,12 @@
 //     square(this.x, this.y, this.size);
 //   }
 // }
+
+
+// Opponent ideas: 1. Moving  2. Aim for player with laser--examples p5  3. Line of circles/or a rectangle rotating--examples p5  4. Boss character
+
+
+// --saveJSON(laserArray, "examplelevel.json")
 
 
 let squareX = 100;
@@ -38,6 +47,8 @@ let circleDiameter = 50;
 
 let opponentArray = [];
 let laserArray = [];
+
+let exampleLevel;
 
 
 class Laser {
@@ -100,6 +111,17 @@ class Laser {
 // }
 
 
+function preload() {
+  exampleLevel = loadJSON("examplelevel.json", loadData);
+}
+
+
+//following JSON p5 example, also using what's in preload()
+// function loadData(laserArray) {
+
+// }
+
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noStroke();
@@ -114,6 +136,7 @@ function draw() {
   displayPlayer();
   movementWASD();
   //drawLazer();
+  //laserArray = exampleLevel;
   for (let laser of laserArray) {
     laser.move();
     laser.display();
