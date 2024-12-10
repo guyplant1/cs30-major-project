@@ -50,6 +50,11 @@ let laserArray = [];
 
 let exampleLevel;
 
+let playerUpState = "clear";
+let playerLeftState = "clear";
+let playerDownState = "clear";
+let playerRightState = "clear";
+
 
 class Laser {
   constructor(x, y, w, h, arrowedDirection) {
@@ -111,9 +116,9 @@ class Laser {
 // }
 
 
-function preload() {
-  exampleLevel = loadJSON("examplelevel.json", loadData);
-}
+// function preload() {
+//   exampleLevel = loadJSON("examplelevel.json");
+// }
 
 
 //following JSON p5 example, also using what's in preload()
@@ -138,7 +143,7 @@ function draw() {
   //drawLazer();
   //laserArray = exampleLevel;
   for (let laser of laserArray) {
-    laser.move();
+    //laser.move();
     laser.display();
   }
 }
@@ -160,20 +165,26 @@ function displayPlayer() {
 
 // This function allows the player to move the red square character on the screen by WASD key pressing. -- Also, the player is planned to have a laser attack by using the arrow keys.
 function movementWASD() {
-  if (keyIsDown(87) === true) { //w
-    squareY -= 10;
-  }
+  for (let laser of laserArray) {
+    if (squareY > laser.y) {
+      if (keyIsDown(87) === true) { //w
+        squareY -= 10;
+      }
+    }
 
-  if (keyIsDown(65) === true) { //a
-    squareX -= 10;
-  }
+    if (squareX > laser.x) {
+      if (keyIsDown(65) === true) { //a
+        squareX -= 10;
+      }
+    }
 
-  if (keyIsDown(83) === true) { //s
-    squareY += 10;
-  }
-
-  if (keyIsDown(68) === true) { //d
-    squareX += 10;
+    if (keyIsDown(83) === true) { //s
+      squareY += 10;
+    }
+  
+    if (keyIsDown(68) === true) { //d
+      squareX += 10;
+    }
   }
 
   if (keyIsDown(38) === true) { //up arrow
@@ -248,6 +259,14 @@ function laserProjectile(arrowedDirection) {
   // for (let laser of laserArray) {
   //   laser.display();
   //   laser.move(laserDirection);
+  // }
+}
+
+
+//
+function playerCollisonDetection() {
+  // for (let laser of laserArray) {
+  //   if (sqaureX)
   // }
 }
 
