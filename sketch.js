@@ -66,7 +66,7 @@ class Laser {
     this.dx = 5;
     this.dy = 5;
     this.r = 255;
-    this.g = 0;
+    this.g = 50;
     this.b = 0;
     this.opacity = 255;
   }
@@ -116,9 +116,9 @@ class Laser {
 // }
 
 
-// function preload() {
-//   exampleLevel = loadJSON("examplelevel.json");
-// }
+function preload() {
+  exampleLevel = loadJSON("examplelevel.json");
+}
 
 
 //following JSON p5 example, also using what's in preload()
@@ -132,6 +132,8 @@ function setup() {
   noStroke();
   circleX = windowWidth/2 + 200;
   circleY = windowHeight/2 + 200;
+  // laserArray = exampleLevel;
+  console.log(laserArray);
 }
 
 function draw() {
@@ -141,7 +143,6 @@ function draw() {
   displayPlayer();
   movementWASD();
   //drawLazer();
-  //laserArray = exampleLevel;
   for (let laser of laserArray) {
     //laser.move();
     laser.display();
@@ -165,57 +166,57 @@ function displayPlayer() {
 
 // This function allows the player to move the red square character on the screen by WASD key pressing. -- Also, the player is planned to have a laser attack by using the arrow keys.
 function movementWASD() {
-  for (let laser of laserArray) {
-    if (squareY > laser.y) {
-      if (keyIsDown(87) === true) { //w
-        squareY -= 10;
-      }
-    }
+  // for (let laser of laserArray) {
+  //   if (squareY > laser.y) {
+  //     if (keyIsDown(87) === true) { //w
+  //       squareY -= 10;
+  //     }
+  //   }
 
-    if (squareX > laser.x) {
-      if (keyIsDown(65) === true) { //a
-        squareX -= 10;
-      }
-    }
+  //   if (squareX > laser.x) {
+  //     if (keyIsDown(65) === true) { //a
+  //       squareX -= 10;
+  //     }
+  //   }
 
-    if (keyIsDown(83) === true) { //s
-      squareY += 10;
-    }
+  //   if (keyIsDown(83) === true) { //s
+  //     squareY += 10;
+  //   }
   
-    if (keyIsDown(68) === true) { //d
-      squareX += 10;
-    }
+  //   if (keyIsDown(68) === true) { //d
+  //     squareX += 10;
+  //   }
+  // }
+
+  if (keyIsDown(87) === true) { //w
+    squareY -= 10;
+  }
+
+  if (keyIsDown(65) === true) { //a
+    squareX -= 10;
+  }
+
+  if (keyIsDown(83) === true) { //s
+    squareY += 10;
+  }
+
+  if (keyIsDown(68) === true) { //d
+    squareX += 10;
   }
 
   if (keyIsDown(38) === true) { //up arrow
-    // fill("red");
-    // square(mouseX, mouseY, squareSize);
-    // text("click", mouseX, mouseY);
-    // console.log("click");
     laserProjectile("up");
   }
 
   if (keyIsDown(37) === true) { //left arrow
-    // fill("red");
-    // square(mouseX, mouseY, squareSize);
-    // text("click", mouseX, mouseY);
-    // console.log("click");
     laserProjectile("left");
   }
 
   if (keyIsDown(40) === true) { //down arrow
-    // fill("red");
-    // square(mouseX, mouseY, squareSize);
-    // text("click", mouseX, mouseY);
-    // console.log("click");
     laserProjectile("down");
   }
 
   if (keyIsDown(39) === true) { //right arrow
-    // fill("red");
-    // square(mouseX, mouseY, squareSize);
-    // text("click", mouseX, mouseY);
-    // console.log("click");
     laserProjectile("right");
   }
   // if (key === " ") {
