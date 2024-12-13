@@ -47,8 +47,12 @@ let circleDiameter = 50;
 
 let opponentArray = [];
 let laserArray = [];
+let gameLevelRoom = [];
+// let testArray = ["a", "b", "c"];
+// let testArrayTwo = [];
+// let testVariable;
 
-let exampleLevel;
+let exampleLevel = [];
 
 let playerUpState = "clear";
 let playerLeftState = "clear";
@@ -116,9 +120,11 @@ class Laser {
 // }
 
 
-function preload() {
-  exampleLevel = loadJSON("examplelevel.json");
-}
+//---------------------
+// function preload() {
+//   loadJSON("examplelevel.json", loadLaserDrawing);
+//   // testVariable = loadJSON("testletters.json");
+// }
 
 
 //following JSON p5 example, also using what's in preload()
@@ -127,13 +133,28 @@ function preload() {
 // }
 
 
+// --------------------------------------
+// function loadLaserDrawing(laserData) {
+//   let testRoom = [];
+//   for (let laser of laserData) {
+//     laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+//     testRoom.push(laser);
+//     console.log(laser);
+//   }
+// }
+
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noStroke();
   circleX = windowWidth/2 + 200;
   circleY = windowHeight/2 + 200;
-  // laserArray = exampleLevel;
-  console.log(laserArray);
+  //console.log(laserArray);
+  //console.log(exampleLevel);
+  //loadLaserDrawing();-------------------
+  //console.log(gameLevelRoom);
+  // testArrayTwo = testVariable;
+  // console.log(testArrayTwo);
 }
 
 function draw() {
@@ -147,6 +168,12 @@ function draw() {
     //laser.move();
     laser.display();
   }
+
+  //------------------------------
+  // for (let laser of testRoom) {
+  //   //laser.move();
+  //   laser.display();
+  // }
 }
 
 
