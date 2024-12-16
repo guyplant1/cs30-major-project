@@ -53,6 +53,7 @@ let gameLevelRoom = [];
 // let testVariable;
 
 let exampleLevel = [];
+let testRoom;
 
 let playerUpState = "clear";
 let playerLeftState = "clear";
@@ -60,6 +61,7 @@ let playerDownState = "clear";
 let playerRightState = "clear";
 
 
+//
 class Laser {
   constructor(x, y, w, h, arrowedDirection) {
     this.x = x;
@@ -120,6 +122,18 @@ class Laser {
 // }
 
 
+//
+// class Opponent {
+//   constructor() {
+//     this.x = 20;
+//     this.y = 20;
+//     this.d = 20;
+//     this.dx = 5;
+//     this.dy = 5;
+//     this.color = "green";
+//   }
+// }
+
 //---------------------
 // function preload() {
 //   loadJSON("examplelevel.json", loadLaserDrawing);
@@ -137,9 +151,13 @@ class Laser {
 // function loadLaserDrawing(laserData) {
 //   let testRoom = [];
 //   for (let laser of laserData) {
-//     laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
-//     testRoom.push(laser);
-//     console.log(laser);
+//     //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+//     let x = laser.x;
+//     let y = laser.y;
+//     let w = laser.w;
+//     let h = laser.h;
+//     testRoom.push(new Laser(x, y, w, h));
+//     //console.log(laser);
 //   }
 // }
 
@@ -151,7 +169,7 @@ function setup() {
   circleY = windowHeight/2 + 200;
   //console.log(laserArray);
   //console.log(exampleLevel);
-  //loadLaserDrawing();-------------------
+  //loadLaserDrawing(); //-------------------
   //console.log(gameLevelRoom);
   // testArrayTwo = testVariable;
   // console.log(testArrayTwo);
