@@ -136,7 +136,8 @@ class Laser {
 
 //---------------------
 // function preload() {
-//   loadJSON("examplelevel.json", loadLaserDrawing);
+//   loadJSON("testroom3.json", loadLaserDrawing);
+//   // loadJSON("examplelevel.json", loadLaserDrawing);
 //   // testVariable = loadJSON("testletters.json");
 // }
 
@@ -160,6 +161,8 @@ class Laser {
 //     //console.log(laser);
 //   }
 // }
+
+//I have an idea to use testletters.json in the project to see if it can be in the laserArray and be loaded data in the above function, maybe coded a little bit different than what's above in the function.
 
 
 function setup() {
@@ -186,12 +189,14 @@ function draw() {
     //laser.move();
     laser.display();
   }
+  //console.log(laserArray);
 
   //------------------------------
   // for (let laser of testRoom) {
   //   //laser.move();
   //   laser.display();
   // }
+  //console.log(testRoom);
 }
 
 
