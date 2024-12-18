@@ -1,5 +1,5 @@
-// Project Title
-// Your Name
+// Major Project
+// Syhon
 // Date
 //
 // Extra for Experts:
@@ -53,7 +53,7 @@ let gameLevelRoom = [];
 // let testVariable;
 
 let exampleLevel = [];
-let testRoom;
+let testRoom = [];
 
 let playerUpState = "clear";
 let playerLeftState = "clear";
@@ -135,11 +135,12 @@ class Laser {
 // }
 
 //---------------------
-// function preload() {
-//   loadJSON("testroom3.json", loadLaserDrawing);
-//   // loadJSON("examplelevel.json", loadLaserDrawing);
-//   // testVariable = loadJSON("testletters.json");
-// }
+function preload() {
+  // loadJSON("testroom3.json", loadLaserDrawing);
+  loadJSON("examplelevel.json", loadLaserDrawing);
+  //loadJSON("testroom3.json", loadLaserDrawing);
+  // testVariable = loadJSON("testletters.json");
+}
 
 
 //following JSON p5 example, also using what's in preload()
@@ -149,18 +150,18 @@ class Laser {
 
 
 // --------------------------------------
-// function loadLaserDrawing(laserData) {
-//   let testRoom = [];
-//   for (let laser of laserData) {
-//     //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
-//     let x = laser.x;
-//     let y = laser.y;
-//     let w = laser.w;
-//     let h = laser.h;
-//     testRoom.push(new Laser(x, y, w, h));
-//     //console.log(laser);
-//   }
-// }
+function loadLaserDrawing(laserData) {
+  //testRoom = [];
+  for (let laser of laserData) {
+    //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+    let x = laser.x;
+    let y = laser.y;
+    let w = laser.w;
+    let h = laser.h;
+    testRoom.push(new Laser(x, y, w, h));
+    //console.log(laser);
+  }
+}
 
 //I have an idea to use testletters.json in the project to see if it can be in the laserArray and be loaded data in the above function, maybe coded a little bit different than what's above in the function.
 
@@ -170,6 +171,7 @@ function setup() {
   noStroke();
   circleX = windowWidth/2 + 200;
   circleY = windowHeight/2 + 200;
+  //loadJSON("examplelevel.json", loadLaserDrawing);
   //console.log(laserArray);
   //console.log(exampleLevel);
   //loadLaserDrawing(); //-------------------
@@ -192,10 +194,10 @@ function draw() {
   //console.log(laserArray);
 
   //------------------------------
-  // for (let laser of testRoom) {
-  //   //laser.move();
-  //   laser.display();
-  // }
+  for (let laser of testRoom) {
+    //laser.move();
+    laser.display();
+  }
   //console.log(testRoom);
 }
 
