@@ -32,8 +32,8 @@
 // --saveJSON(laserArray, "examplelevel.json")
 
 
-let squareX = 100;
-let squareY = 100;
+let squareX = 740;
+let squareY = 400;
 let squareSize = 50;
 
 const LEFT_AND_RIGHT_LASER_WIDTH = 200;
@@ -45,6 +45,11 @@ let circleX;
 let circleY;
 let circleDiameter = 50;
 
+testShapeX = 800;
+testShapeY = 400;
+testShapeW = 20;
+testShapeH = 200;
+
 let opponentArray = [];
 let laserArray = [];
 let gameLevelRoom = [];
@@ -54,6 +59,7 @@ let gameLevelRoom = [];
 
 let exampleLevel = [];
 let testRoom = [];
+let roomDrawn = [];
 
 let playerUpState = "clear";
 let playerLeftState = "clear";
@@ -136,9 +142,9 @@ class Laser {
 
 //---------------------
 function preload() {
-  // loadJSON("testroom3.json", loadLaserDrawing);
-  loadJSON("examplelevel.json", loadLaserDrawing);
-  //loadJSON("testroom3.json", loadLaserDrawing);
+  loadJSON("testroom3.json", loadRoomDrawing);
+  //loadJSON("examplelevel.json", loadRoomDrawing);
+  //loadJSON("testroom3.json", loadRoomDrawing);
   // testVariable = loadJSON("testletters.json");
 }
 
@@ -150,15 +156,15 @@ function preload() {
 
 
 // --------------------------------------
-function loadLaserDrawing(laserData) {
+function loadRoomDrawing(roomData) {
   //testRoom = [];
-  for (let laser of laserData) {
+  for (let shape of roomData) {
     //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
-    let x = laser.x;
-    let y = laser.y;
-    let w = laser.w;
-    let h = laser.h;
-    testRoom.push(new Laser(x, y, w, h));
+    let x = shape.x;
+    let y = shape.y;
+    let w = shape.w;
+    let h = shape.h;
+    roomDrawn.push(new Laser(x, y, w, h));
     //console.log(laser);
   }
 }
@@ -185,20 +191,28 @@ function draw() {
   //circle(mouseX, mouseY, 20);
   displayOpponents();
   displayPlayer();
+  displayTestRect();
   movementWASD();
   //drawLazer();
   for (let laser of laserArray) {
-    //laser.move();
-    laser.display();
+    if (laser.x < 0 || laser.x > width - laser.w || laser.y < 0 || laser.y > height - laser.h) {
+      let index = laserArray.indexOf(laser);
+      laserArray.splice(index, 1);
+      console.log("border");
+    }
+    else {
+      laser.move();
+      laser.display();
+    }
   }
-  //console.log(laserArray);
 
   //------------------------------
-  for (let laser of testRoom) {
+  for (let shape of roomDrawn) {
     //laser.move();
-    laser.display();
+    shape.display();
   }
-  //console.log(testRoom);
+
+  playerCollisonDetection();
 }
 
 
@@ -213,6 +227,14 @@ function displayOpponents() {
 function displayPlayer() {
   fill("red");
   square(squareX, squareY, squareSize);
+}
+
+
+// This a temporary function for now to test collison detection for the player's square with a rect shape.
+function displayTestRect() {
+  fill("yellow");
+  rect(testShapeX, testShapeY, testShapeW, testShapeH);
+  rect(testShapeX - 100, testShapeY, testShapeW, testShapeH);
 }
 
 
@@ -240,20 +262,28 @@ function movementWASD() {
   //   }
   // }
 
-  if (keyIsDown(87) === true) { //w
-    squareY -= 10;
+  if (playerUpState === "clear") {
+    if (keyIsDown(87) === true) { //w
+      squareY -= 10;
+    }
   }
 
-  if (keyIsDown(65) === true) { //a
-    squareX -= 10;
+  if (playerLeftState === "clear") {
+    if (keyIsDown(65) === true) { //a
+      squareX -= 10;
+    }
   }
 
-  if (keyIsDown(83) === true) { //s
-    squareY += 10;
+  if (playerDownState === "clear") {
+    if (keyIsDown(83) === true) { //s
+      squareY += 10;
+    }
   }
 
-  if (keyIsDown(68) === true) { //d
-    squareX += 10;
+  if (playerRightState === "clear") {
+    if (keyIsDown(68) === true) { //d
+      squareX += 10;
+    }
   }
 
   if (keyIsDown(38) === true) { //up arrow
@@ -318,9 +348,23 @@ function laserProjectile(arrowedDirection) {
 
 //
 function playerCollisonDetection() {
-  // for (let laser of laserArray) {
-  //   if (sqaureX)
+  // for (let shape of roomDrawn) {
+  //   if (squareX >= shape.w) {
+  //     playerRightState = "blocked";
+  //     //console.log("blocked");
+  //   }
+  //   else {
+  //     playerRightState = "clear";
+  //     //console.log("clear");
+  //   }
   // }
+
+  if (squareX >= testShapeX - 50) {
+    playerRightState = "blocked";
+  }
+  else {
+    playerRightState = "clear";
+  }
 }
 
 
