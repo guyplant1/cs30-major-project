@@ -50,6 +50,7 @@ testShapeY = 400;
 testShapeW = 20;
 testShapeH = 200;
 
+let opponentDrawState = "room one";
 let opponentArray = [];
 let laserArray = [];
 let gameLevelRoom = [];
@@ -129,16 +130,22 @@ class Laser {
 
 
 //
-// class Opponent {
-//   constructor() {
-//     this.x = 20;
-//     this.y = 20;
-//     this.d = 20;
-//     this.dx = 5;
-//     this.dy = 5;
-//     this.color = "green";
-//   }
-// }
+class Opponent {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.d = 50;
+    this.dx = 5;
+    this.dy = 5;
+    this.color = "green";
+  }
+
+  display() {
+    fill(this.color);
+    circle(this.x, this.y, this.d);
+  }
+}
+
 
 //---------------------
 function preload() {
@@ -175,7 +182,7 @@ function loadRoomDrawing(roomData) {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noStroke();
-  circleX = windowWidth/2 + 200;
+  circleX = windowWidth/2 + 100; //200
   circleY = windowHeight/2 + 200;
   //loadJSON("examplelevel.json", loadLaserDrawing);
   //console.log(laserArray);
@@ -189,7 +196,7 @@ function setup() {
 function draw() {
   background(220);
   //circle(mouseX, mouseY, 20);
-  displayOpponents();
+  //displayOpponents();
   displayPlayer();
   displayTestRect();
   movementWASD();
@@ -212,15 +219,21 @@ function draw() {
     shape.display();
   }
 
+  opponentDraw();
+
+  for (let opponent of opponentArray) {
+    opponent.display();
+  }
+
   playerCollisonDetection();
 }
 
 
 // This function displays the opponents -- planned to be in the thought of later levels.
-function displayOpponents() {
-  fill("green");
-  circle(circleX, circleY, circleDiameter);
-}
+// function displayOpponents() {
+//   fill("green");
+//   circle(circleX, circleY, circleDiameter);
+// }
 
 
 // This function displays the player.
@@ -364,6 +377,15 @@ function playerCollisonDetection() {
   }
   else {
     playerRightState = "clear";
+  }
+}
+
+//Check for collision by checking the shape's location before the player shape actually collides
+
+function opponentDraw() {
+  if (opponentDrawState === "room one") {
+    opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
+    opponentDrawState = "room stable";
   }
 }
 
