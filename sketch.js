@@ -31,6 +31,8 @@
 
 // --saveJSON(laserArray, "examplelevel.json")
 
+//setInterval() --for doing things repeated, from demo (function, milliseconds like 1000 [= 1 second])
+
 
 let squareX = 740;
 let squareY = 400;
@@ -133,16 +135,33 @@ class Laser {
 class Opponent {
   constructor(x, y) {
     this.x = x;
+    this.originalX = x;
     this.y = y;
     this.d = 50;
     this.dx = 5;
     this.dy = 5;
     this.color = "green";
+    this.movementState = "left";
   }
 
   display() {
     fill(this.color);
     circle(this.x, this.y, this.d);
+  }
+
+  move() {
+    if (this.movementState === "left") {
+      this.x -= this.dx;
+      if (this.x <= 200) {
+        this.movementState = "right";
+      }
+    }
+    else if (this.movementState === "right") {
+      this.x += this.dx;
+      if (this.x === this.originalX) {
+        this.movementState = "left";
+      }
+    }
   }
 }
 
@@ -184,6 +203,7 @@ function setup() {
   noStroke();
   circleX = windowWidth/2 + 100; //200
   circleY = windowHeight/2 + 200;
+  angleMode(DEGREES);
   //loadJSON("examplelevel.json", loadLaserDrawing);
   //console.log(laserArray);
   //console.log(exampleLevel);
@@ -223,7 +243,10 @@ function draw() {
 
   for (let opponent of opponentArray) {
     opponent.display();
+    opponent.move();
   }
+
+  movingOpponent(); //With angleMode(DEGREES) in setup a part of this, from rotate demo on p5js website
 
   playerCollisonDetection();
 }
@@ -387,6 +410,17 @@ function opponentDraw() {
     opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
     opponentDrawState = "room stable";
   }
+}
+
+
+//
+function movingOpponent() {
+  stroke("green");
+  strokeWeight(20);
+  translate(width/2, height/2);
+  rotate(frameCount);
+  line(0, 0, 150, 0);
+  noStroke();
 }
 
 
