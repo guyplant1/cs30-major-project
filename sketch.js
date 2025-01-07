@@ -246,7 +246,9 @@ function draw() {
     opponent.move();
   }
 
-  movingOpponent(); //With angleMode(DEGREES) in setup a part of this, from rotate demo on p5js website
+  //movingOpponent(); //With angleMode(DEGREES) in setup a part of this, from rotate demo on p5js website
+
+  displayPlayerStats();
 
   playerCollisonDetection();
 }
@@ -414,15 +416,29 @@ function opponentDraw() {
 
 
 //
-function movingOpponent() {
-  stroke("green");
-  strokeWeight(20);
-  translate(width/2, height/2);
-  rotate(frameCount);
-  line(0, 0, 150, 0);
-  noStroke();
-}
+// function movingOpponent() {
+//   stroke("green");
+//   strokeWeight(20);
+//   translate(width/2, height/2);
+//   rotate(frameCount);
+//   line(0, 0, 150, 0);
+//   noStroke();
+// }
 
+
+//
+function displayPlayerStats() {
+  fill("black");
+  rect(width/2 - 800, 0, width, 100);
+  rect(50 + 80, 35, squareSize + 200, squareSize - 20);
+  stroke("white"); //fix stroke note
+  fill("red");
+  stroke("green"); //final stroke result green here
+  square(50, 25, squareSize);
+  strokeWeight(2);
+  textSize(50);
+  text("0%", 500, 68);
+}
 
 // function drawLazer() {
 //   if (mouseIsPressed === true) {
