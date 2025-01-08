@@ -38,6 +38,10 @@ let squareX = 740;
 let squareY = 400;
 let squareSize = 50;
 
+let playerHp = 0;
+let playerHpPercentage = 0;
+let playerHpArray = [];
+
 const LEFT_AND_RIGHT_LASER_WIDTH = 200;
 const UP_AND_DOWN_LASER_HEIGHT = 200;
 const UP_AND_DOWN_LASER_WIDTH = 20;
@@ -204,6 +208,7 @@ function setup() {
   circleX = windowWidth/2 + 100; //200
   circleY = windowHeight/2 + 200;
   angleMode(DEGREES);
+  // setInterval(playerHpSystem(), 200);
   //loadJSON("examplelevel.json", loadLaserDrawing);
   //console.log(laserArray);
   //console.log(exampleLevel);
@@ -431,14 +436,38 @@ function displayPlayerStats() {
   fill("black");
   rect(width/2 - 800, 0, width, 100);
   rect(50 + 80, 35, squareSize + 200, squareSize - 20);
+
+  if (playerHp < 250) {
+    setInterval(playerHpSystem(), 100);
+  }
+  else {
+    fill("red");
+    rect(50 + 80, 35, squareSize + 200, squareSize - 20);
+  }
+
   stroke("white"); //fix stroke note
   fill("red");
   stroke("green"); //final stroke result green here
   square(50, 25, squareSize);
   strokeWeight(2);
   textSize(50);
-  text("0%", 500, 68);
+  text(playerHpPercentage + "%", 500, 68);
 }
+
+
+//
+function playerHpSystem() {
+  fill("red");
+  rect(50 + 80, 35, squareSize - 50 + playerHp, squareSize - 20);
+  playerHp++;
+  if (playerHpPercentage < 100) {
+    playerHpPercentage++;
+  }
+}
+
+
+// So far plan notes: Opponent and player interaction.  Room drawing/drawn, and checking collision with player.  Fix/clear code.
+
 
 // function drawLazer() {
 //   if (mouseIsPressed === true) {
