@@ -73,8 +73,10 @@ let playerLeftState = "clear";
 let playerDownState = "clear";
 let playerRightState = "clear";
 
+let hit = false;
 
-//
+
+// This class gives the ability to display rects that act like moving laser projectiles, with the player's arrow key presses deciding which direction each new rect will go
 class Laser {
   constructor(x, y, w, h, arrowedDirection) {
     this.x = x;
@@ -116,6 +118,7 @@ class Laser {
 }
 
 
+// This class is planned to be used to draw the rooms in the project
 // class DrawingLaser {
 //   constructor(x, y, w, h) {
 //     this.x = x;
@@ -135,7 +138,7 @@ class Laser {
 // }
 
 
-//
+// This class gives the ability to display (so far) a circle/circles that moves back and forth from one point on the screen to another
 class Opponent {
   constructor(x, y) {
     this.x = x;
@@ -273,6 +276,13 @@ function displayPlayer() {
 }
 
 
+// A maybe test function for displaying the player with mouseX and Y for collision testing.
+// function displayTestPlayer() {
+//   fill("red");
+//   square(mouseX, mouseY, squareSize);
+// }
+
+
 // This a temporary function for now to test collison detection for the player's square with a rect shape.
 function displayTestRect() {
   fill("yellow");
@@ -391,6 +401,13 @@ function laserProjectile(arrowedDirection) {
 
 //
 function playerCollisonDetection() {
+  for (let shape of roomDrawn) {
+    hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, squareX, squareY, squareSize, squareSize);
+    if (hit === true) {
+      console.log("collision");
+    }
+  }
+  // hit = collideRectRect(testShapeX, testShapeY, testShapeW, testShapeH, squareX, squareY, squareSize, squareSize);
   // for (let shape of roomDrawn) {
   //   if (squareX >= shape.w) {
   //     playerRightState = "blocked";
@@ -402,12 +419,16 @@ function playerCollisonDetection() {
   //   }
   // }
 
-  if (squareX >= testShapeX - 50) {
-    playerRightState = "blocked";
-  }
-  else {
-    playerRightState = "clear";
-  }
+  // if (squareX >= testShapeX - 50) {
+  //   playerRightState = "blocked";
+  // }
+  // else {
+  //   playerRightState = "clear";
+  // }
+
+  // if (hit === true) {
+  //   console.log("collision");
+  // }
 }
 
 //Check for collision by checking the shape's location before the player shape actually collides
