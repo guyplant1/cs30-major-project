@@ -318,67 +318,102 @@ function movementWASD() {
   //   }
   // }
 
-  for (let shape of roomDrawn) {
-    hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
+  if (keyIsDown(87) === true) { //w  //&& playerUpState === "clear"
+    newSquareY -= 0.03;
+    let anythingHit = false;
+    for (let shape of roomDrawn) {
     // let otherHit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY - 10, squareSize, squareSize);
-    if (hit === false) {
-      if (keyIsDown(87) === true) { //w
-        squareY -= 0.03;
-        newSquareY -= 0.03;
-      }
-      if (keyIsDown(65) === true) { //a
-        squareX -= 0.03;
-        newSquareX -= 0.03;
-      }
-    
-      if (keyIsDown(83) === true) { //s
-        squareY += 0.03;
-        newSquareY += 0.03;
-      }
-    
-      if (keyIsDown(68) === true) { //d
-        squareX += 0.03;
-        newSquareX += 0.03;
+      hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
+      if (hit) {
+        anythingHit = true;
       }
     }
-    // else {
-    //   console.log("collision");
-    // }
-
-    // if (keyIsDown(87) === true) { //w
-    //   squareY -= 0.03;
-    //   newSquareY -= 0.03;
-    // }
-  
-    // if (keyIsDown(65) === true) { //a
-    //   squareX -= 0.03;
-    //   newSquareX -= 0.03;
-    // }
-  
-    // if (keyIsDown(83) === true) { //s
-    //   squareY += 0.03;
-    //   newSquareY += 0.03;
-    // }
-  
-    // if (keyIsDown(68) === true) { //d
-    //   squareX += 0.03;
-    //   newSquareX += 0.03;
-    // }
-
-    // if (newSquareY++ !== hit) {
-    //   if (keyIsDown(87) === true) { //w
-    //     squareY -= 0.03;
-    //     newSquareY -= 0.03;
-    //   }
-    //   //console.log("clear");
-    // }
-
-    // if (hit === true) {
-    //   console.log("collision");
-    // }
-
-    //console.log(hit);
+    if (anythingHit === false) {
+      squareY -= 0.03;
+      playerUpState === "blocked";
+      //console.log(playerUpState);
+    }
+    else {
+      console.log("here");
+      newSquareY = squareY;
+      playerUpState === "not clear";
+      //console.log(playerUpState);
+      //console.log("collision");
+    }
   }
+
+  if (keyIsDown(65) === true) { //a  //&& playerLeftState === "clear"
+    newSquareX -= 0.03;
+    hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
+    if (hit === false) {
+      squareX -= 0.03;
+    }
+    else {
+      newSquareX = squareX;
+      console.log("collision");
+    }
+  }
+
+  if (keyIsDown(83) === true) { //s  //&& playerDownState === "clear"
+    newSquareY += 0.03;
+    hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
+    if (hit === false) {
+      squareY += 0.03;
+    }
+    else {
+      newSquareY = squareY;
+      console.log("collision");
+    }
+  }
+    
+  if (keyIsDown(68) === true) { //d  //&& playerRightState === "clear"
+    newSquareX += 0.03;
+    hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
+    if (hit === false) {
+      squareX += 0.03;
+    }
+    else {
+      newSquareX = squareX;
+      console.log("collision");
+    }
+  }
+  // else {
+  //   console.log("collision");
+  // }
+
+  // if (keyIsDown(87) === true) { //w
+  //   squareY -= 0.03;
+  //   newSquareY -= 0.03;
+  // }
+  
+  // if (keyIsDown(65) === true) { //a
+  //   squareX -= 0.03;
+  //   newSquareX -= 0.03;
+  // }
+  
+  // if (keyIsDown(83) === true) { //s
+  //   squareY += 0.03;
+  //   newSquareY += 0.03;
+  // }
+  
+  // if (keyIsDown(68) === true) { //d
+  //   squareX += 0.03;
+  //   newSquareX += 0.03;
+  // }
+
+  // if (newSquareY++ !== hit) {
+  //   if (keyIsDown(87) === true) { //w
+  //     squareY -= 0.03;
+  //     newSquareY -= 0.03;
+  //   }
+  //   //console.log("clear");
+  // }
+
+  // if (hit === true) {
+  //   console.log("collision");
+  // }
+
+  //console.log(hit);
 
   // if (playerUpState === "clear") {
   //   if (keyIsDown(87) === true) { //w
