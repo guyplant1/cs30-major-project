@@ -377,6 +377,45 @@ function movementWASD() {
       console.log("collision");
     }
   }
+
+
+  // if (keyIsDown(65) === true) { //a  //&& playerLeftState === "clear"
+  //   newSquareX -= 0.03;
+  //   hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
+  //   if (hit === false) {
+  //     squareX -= 0.03;
+  //   }
+  //   else {
+  //     newSquareX = squareX;
+  //     console.log("collision");
+  //   }
+  // }
+
+  // if (keyIsDown(83) === true) { //s  //&& playerDownState === "clear"
+  //   newSquareY += 0.03;
+  //   hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
+  //   if (hit === false) {
+  //     squareY += 0.03;
+  //   }
+  //   else {
+  //     newSquareY = squareY;
+  //     console.log("collision");
+  //   }
+  // }
+    
+  // if (keyIsDown(68) === true) { //d  //&& playerRightState === "clear"
+  //   newSquareX += 0.03;
+  //   hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
+  //   if (hit === false) {
+  //     squareX += 0.03;
+  //   }
+  //   else {
+  //     newSquareX = squareX;
+  //     console.log("collision");
+  //   }
+  // }
+
+
   // else {
   //   console.log("collision");
   // }
@@ -454,8 +493,6 @@ function movementWASD() {
   if (keyIsDown(39) === true) { //right arrow
     laserProjectile("right");
   }
-  // if (key === " ") {
-  // }
 }
 
 
