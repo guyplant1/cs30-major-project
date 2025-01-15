@@ -78,6 +78,8 @@ let playerRightState = "clear";
 
 let hit = false;
 
+let pressTest1;
+
 
 // This class gives the ability to display rects that act like moving laser projectiles, with the player's arrow key presses deciding which direction each new rect will go
 class Laser {
@@ -178,7 +180,8 @@ class Opponent {
 
 //---------------------
 function preload() {
-  loadJSON("testroom3.json", loadRoomDrawing);
+  //pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
+  // let test = loadJSON("examplelevel.json", loadRoomDrawing);
   //loadJSON("examplelevel.json", loadRoomDrawing);
   //loadJSON("testroom3.json", loadRoomDrawing);
   // testVariable = loadJSON("testletters.json");
@@ -194,6 +197,7 @@ function preload() {
 // --------------------------------------
 function loadRoomDrawing(roomData) {
   //testRoom = [];
+  //roomDrawn = [];
   for (let shape of roomData) {
     //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
     let x = shape.x;
@@ -239,7 +243,7 @@ function draw() {
       console.log("border");
     }
     else {
-      laser.move();
+      //laser.move();
       laser.display();
     }
   }
@@ -260,8 +264,6 @@ function draw() {
   //movingOpponent(); //With angleMode(DEGREES) in setup a part of this, from rotate demo on p5js website
 
   displayPlayerStats();
-
-  playerCollisonDetection();
 }
 
 
@@ -296,186 +298,80 @@ function displayTestRect() {
 
 // This function allows the player to move the red square character on the screen by WASD key pressing. -- Also, the player is planned to have a laser attack by using the arrow keys.
 function movementWASD() {
-  // for (let laser of laserArray) {
-  //   if (squareY > laser.y) {
-  //     if (keyIsDown(87) === true) { //w
-  //       squareY -= 10;
-  //     }
-  //   }
-
-  //   if (squareX > laser.x) {
-  //     if (keyIsDown(65) === true) { //a
-  //       squareX -= 10;
-  //     }
-  //   }
-
-  //   if (keyIsDown(83) === true) { //s
-  //     squareY += 10;
-  //   }
-  
-  //   if (keyIsDown(68) === true) { //d
-  //     squareX += 10;
-  //   }
-  // }
-
-  if (keyIsDown(87) === true) { //w  //&& playerUpState === "clear"
-    newSquareY -= 0.03;
-    let anythingHit = false;
+  let moveSpeed = 5;
+  if (keyIsDown(87) === true) { //w
+    newSquareY -= moveSpeed;
+    let blocked = false;
     for (let shape of roomDrawn) {
-    // let otherHit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY - 10, squareSize, squareSize);
-      hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
-      if (hit) {
-        anythingHit = true;
+      if (collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize)) {
+        blocked = true;
+        break;
       }
     }
-    if (anythingHit === false) {
-      squareY -= 0.03;
-      playerUpState === "blocked";
-      //console.log(playerUpState);
-    }
-    else {
-      console.log("here");
-      newSquareY = squareY;
-      playerUpState === "not clear";
-      //console.log(playerUpState);
-      //console.log("collision");
-    }
-  }
-
-  if (keyIsDown(65) === true) { //a  //&& playerLeftState === "clear"
-    newSquareX -= 0.03;
-    hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
-    if (hit === false) {
-      squareX -= 0.03;
-    }
-    else {
-      newSquareX = squareX;
-      console.log("collision");
-    }
-  }
-
-  if (keyIsDown(83) === true) { //s  //&& playerDownState === "clear"
-    newSquareY += 0.03;
-    hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
-    if (hit === false) {
-      squareY += 0.03;
+    if (!blocked) {
+      squareY -= moveSpeed;
     }
     else {
       newSquareY = squareY;
-      console.log("collision");
     }
   }
-    
-  if (keyIsDown(68) === true) { //d  //&& playerRightState === "clear"
-    newSquareX += 0.03;
-    hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
-    if (hit === false) {
-      squareX += 0.03;
+
+  if (keyIsDown(65) === true) { //a
+    newSquareX -= moveSpeed;
+    let blocked = false;
+    for (let shape of roomDrawn) {
+      if (collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize)) {
+        blocked = true;
+        break;
+      }
+    }
+    if (!blocked) {
+      squareX -= moveSpeed;
     }
     else {
       newSquareX = squareX;
-      console.log("collision");
     }
   }
 
+  if (keyIsDown(83) === true) { //s
+    newSquareY += moveSpeed;
+    let blocked = false;
+    for (let shape of roomDrawn) {
+      if (collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize)) {
+        blocked = true;
+        break;
+      }
+    }
+    if (!blocked) {
+      squareY += moveSpeed;
+    }
+    else {
+      newSquareY = squareY;
+    }
+  }
 
-  // if (keyIsDown(65) === true) { //a  //&& playerLeftState === "clear"
-  //   newSquareX -= 0.03;
-  //   hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
-  //   if (hit === false) {
-  //     squareX -= 0.03;
-  //   }
-  //   else {
-  //     newSquareX = squareX;
-  //     console.log("collision");
-  //   }
+  if (keyIsDown(68) === true) { //d
+    newSquareX += moveSpeed;
+    let blocked = false;
+    for (let shape of roomDrawn) {
+      if (collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize)) {
+        blocked = true;
+        break;
+      }
+    }
+    if (!blocked) {
+      squareX += moveSpeed;
+    }
+    else {
+      newSquareX = squareX;
+    }
+  }
+
+  // if (keyIsDown(81) === true) {
+  //   roomDrawn = loadJSON("testroom3.json", loadRoomDrawing);
   // }
-
-  // if (keyIsDown(83) === true) { //s  //&& playerDownState === "clear"
-  //   newSquareY += 0.03;
-  //   hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
-  //   if (hit === false) {
-  //     squareY += 0.03;
-  //   }
-  //   else {
-  //     newSquareY = squareY;
-  //     console.log("collision");
-  //   }
-  // }
-    
-  // if (keyIsDown(68) === true) { //d  //&& playerRightState === "clear"
-  //   newSquareX += 0.03;
-  //   hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, newSquareX, newSquareY, squareSize, squareSize);
-  //   if (hit === false) {
-  //     squareX += 0.03;
-  //   }
-  //   else {
-  //     newSquareX = squareX;
-  //     console.log("collision");
-  //   }
-  // }
-
-
   // else {
-  //   console.log("collision");
-  // }
-
-  // if (keyIsDown(87) === true) { //w
-  //   squareY -= 0.03;
-  //   newSquareY -= 0.03;
-  // }
-  
-  // if (keyIsDown(65) === true) { //a
-  //   squareX -= 0.03;
-  //   newSquareX -= 0.03;
-  // }
-  
-  // if (keyIsDown(83) === true) { //s
-  //   squareY += 0.03;
-  //   newSquareY += 0.03;
-  // }
-  
-  // if (keyIsDown(68) === true) { //d
-  //   squareX += 0.03;
-  //   newSquareX += 0.03;
-  // }
-
-  // if (newSquareY++ !== hit) {
-  //   if (keyIsDown(87) === true) { //w
-  //     squareY -= 0.03;
-  //     newSquareY -= 0.03;
-  //   }
-  //   //console.log("clear");
-  // }
-
-  // if (hit === true) {
-  //   console.log("collision");
-  // }
-
-  //console.log(hit);
-
-  // if (playerUpState === "clear") {
-  //   if (keyIsDown(87) === true) { //w
-  //     squareY -= 10;
-  //   }
-  // }
-
-  // if (playerLeftState === "clear") {
-  //   if (keyIsDown(65) === true) { //a
-  //     squareX -= 10;
-  //   }
-  // }
-
-  // if (playerDownState === "clear") {
-  //   if (keyIsDown(83) === true) { //s
-  //     squareY += 10;
-  //   }
-  // }
-
-  // if (playerRightState === "clear") {
-  //   if (keyIsDown(68) === true) { //d
-  //     squareX += 10;
-  //   }
+  //   roomDrawn = [];
   // }
 
   if (keyIsDown(38) === true) { //up arrow
@@ -532,42 +428,6 @@ function laserProjectile(arrowedDirection) {
   // for (let laser of laserArray) {
   //   laser.display();
   //   laser.move(laserDirection);
-  // }
-}
-
-
-//
-function playerCollisonDetection() {
-  // for (let shape of roomDrawn) {
-  //   hit = collideRectRect(shape.x, shape.y, shape.w, shape.h, squareX, squareY, squareSize, squareSize);
-  //   if (hit === true) {
-  //     console.log("collision");
-  //   }
-  //   // if (shape.h > squareX) {
-  //   //   console.log("h");
-  //   // }
-  // }
-  // hit = collideRectRect(testShapeX, testShapeY, testShapeW, testShapeH, squareX, squareY, squareSize, squareSize);
-  // for (let shape of roomDrawn) {
-  //   if (squareX >= shape.w) {
-  //     playerRightState = "blocked";
-  //     //console.log("blocked");
-  //   }
-  //   else {
-  //     playerRightState = "clear";
-  //     //console.log("clear");
-  //   }
-  // }
-
-  // if (squareX >= testShapeX - 50) {
-  //   playerRightState = "blocked";
-  // }
-  // else {
-  //   playerRightState = "clear";
-  // }
-
-  // if (hit === true) {
-  //   console.log("collision");
   // }
 }
 
