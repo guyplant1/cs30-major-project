@@ -70,6 +70,9 @@ let gameLevelRoom = [];
 let exampleLevel = [];
 let testRoom = [];
 let roomDrawn = [];
+let roomArray = [];
+let roomArray2 = [];
+let roomCounter = 0;
 
 let playerUpState = "clear";
 let playerLeftState = "clear";
@@ -79,6 +82,9 @@ let playerRightState = "clear";
 let hit = false;
 
 let pressTest1;
+let pressTest2;
+
+let gameScreenState = "start screen";
 
 
 // This class gives the ability to display rects that act like moving laser projectiles, with the player's arrow key presses deciding which direction each new rect will go
@@ -180,9 +186,11 @@ class Opponent {
 
 //---------------------
 function preload() {
-  //pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
+  pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
+  pressTest2 = loadJSON("examplelevel.json", loadRoomDrawing);
+  // pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
+  // pressTest2 = loadJSON("examplelevel.json", loadRoomDrawing);
   // let test = loadJSON("examplelevel.json", loadRoomDrawing);
-  //loadJSON("examplelevel.json", loadRoomDrawing);
   //loadJSON("testroom3.json", loadRoomDrawing);
   // testVariable = loadJSON("testletters.json");
 }
@@ -198,15 +206,32 @@ function preload() {
 function loadRoomDrawing(roomData) {
   //testRoom = [];
   //roomDrawn = [];
-  for (let shape of roomData) {
-    //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
-    let x = shape.x;
-    let y = shape.y;
-    let w = shape.w;
-    let h = shape.h;
-    roomDrawn.push(new Laser(x, y, w, h));
-    //console.log(laser);
+  if (roomCounter === 0) {
+    for (let shape of roomData) {
+      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+      let x = shape.x;
+      let y = shape.y;
+      let w = shape.w;
+      let h = shape.h;
+      //roomDrawn.push(new Laser(x, y, w, h));
+      roomArray.push(new Laser(x, y, w, h));
+      //console.log(laser);
+    }
   }
+
+  else if (roomCounter === 1) {
+    for (let shape of roomData) {
+      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+      let x = shape.x;
+      let y = shape.y;
+      let w = shape.w;
+      let h = shape.h;
+      //roomDrawn.push(new Laser(x, y, w, h));
+      roomArray2.push(new Laser(x, y, w, h));
+      //console.log(laser);
+    }
+  }
+  roomCounter++;
 }
 
 //I have an idea to use testletters.json in the project to see if it can be in the laserArray and be loaded data in the above function, maybe coded a little bit different than what's above in the function.
@@ -230,40 +255,73 @@ function setup() {
 
 function draw() {
   background(220);
-  //circle(mouseX, mouseY, 20);
-  //displayOpponents();
-  displayPlayer();
-  displayTestRect();
-  movementWASD();
-  //drawLazer();
-  for (let laser of laserArray) {
-    if (laser.x < 0 || laser.x > width - laser.w || laser.y < 0 || laser.y > height - laser.h) {
-      let index = laserArray.indexOf(laser);
-      laserArray.splice(index, 1);
-      console.log("border");
+  if (gameScreenState === "start screen") {
+    displayStartScreen();
+  }
+  else if (gameScreenState === "game over") {
+    displayGameOverScreen();
+  }
+  else {
+    //circle(mouseX, mouseY, 20);
+    //displayOpponents();
+    displayPlayer();
+    displayTestRect();
+    movementWASD();
+    //drawLazer();
+    for (let laser of laserArray) {
+      if (laser.x < 0 || laser.x > width - laser.w || laser.y < 0 || laser.y > height - laser.h) {
+        let index = laserArray.indexOf(laser);
+        laserArray.splice(index, 1);
+        console.log("border");
+      }
+      else {
+        //laser.move();
+        laser.display();
+      }
     }
-    else {
+
+    //------------------------------
+    for (let shape of roomDrawn) {
       //laser.move();
-      laser.display();
+      shape.display();
     }
+
+    opponentDraw();
+
+    for (let opponent of opponentArray) {
+      opponent.display();
+      opponent.move();
+    }
+
+    //movingOpponent(); //With angleMode(DEGREES) in setup a part of this, from rotate demo on p5js website
+
+    displayPlayerStats();
   }
+}
 
-  //------------------------------
-  for (let shape of roomDrawn) {
-    //laser.move();
-    shape.display();
+
+// This function displays the start screen of the game
+function displayStartScreen() {
+  fill("orange");
+  rect(width/2 - 360, height/2 - 305, 700, 200);
+  fill("green");
+  circle(circleX + 74, circleY - 410, circleDiameter + 70);
+  fill("black");
+  square(width/2 - 110, height/2 - 262, squareSize + 70);
+  fill("red");
+  textSize(200);
+  text("Shapes", width/2 - 350, height/2 - 150);
+  if (mouseIsPressed) {
+    gameScreenState = "start game";
   }
+}
 
-  opponentDraw();
 
-  for (let opponent of opponentArray) {
-    opponent.display();
-    opponent.move();
-  }
-
-  //movingOpponent(); //With angleMode(DEGREES) in setup a part of this, from rotate demo on p5js website
-
-  displayPlayerStats();
+// This function displays the game over screen of the game
+function displayGameOverScreen() {
+  fill("yellow");
+  text("Game Over");
+  text("Play Again");
 }
 
 
@@ -367,12 +425,12 @@ function movementWASD() {
     }
   }
 
-  // if (keyIsDown(81) === true) {
-  //   roomDrawn = loadJSON("testroom3.json", loadRoomDrawing);
-  // }
-  // else {
-  //   roomDrawn = [];
-  // }
+  if (keyIsDown(81) === true) { //q
+    roomDrawn = roomArray;
+  }
+  else {
+    roomDrawn = roomArray2;
+  }
 
   if (keyIsDown(38) === true) { //up arrow
     laserProjectile("up");
