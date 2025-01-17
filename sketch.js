@@ -59,6 +59,8 @@ testShapeY = 400;
 testShapeW = 20;
 testShapeH = 200;
 
+let playerLaserAmount = 10;
+
 let opponentDrawState = "room one";
 let opponentArray = [];
 let laserArray = [];
@@ -160,6 +162,7 @@ class Opponent {
     this.dy = 5;
     this.color = "green";
     this.movementState = "left";
+    this.hp = 0;
   }
 
   display() {
@@ -269,6 +272,7 @@ function draw() {
     movementWASD();
     //drawLazer();
     for (let laser of laserArray) {
+      opponentAndLaserCollisionDetection(laser);
       if (laser.x < 0 || laser.x > width - laser.w || laser.y < 0 || laser.y > height - laser.h) {
         let index = laserArray.indexOf(laser);
         laserArray.splice(index, 1);
@@ -297,6 +301,8 @@ function draw() {
     //movingOpponent(); //With angleMode(DEGREES) in setup a part of this, from rotate demo on p5js website
 
     displayPlayerStats();
+    //addPlayerLasers();
+    //displayLaserAmountTest();
   }
 }
 
@@ -324,6 +330,11 @@ function displayGameOverScreen() {
   textSize(200);
   text("Game Over", width/2 - 500, height/2);
   text("Play Again", width/2, height/2 + 200);
+  if (mouseIsPressed) {
+    playerHp = 0;
+    playerHpPercentage = 0;
+    gameScreenState = "start game";
+  }
 }
 
 
@@ -428,18 +439,22 @@ function movementWASD() {
   }
 
   if (keyIsDown(38) === true) { //up arrow
+    // setInterval(laserProjectile("up"), 10000);
     laserProjectile("up");
   }
 
   if (keyIsDown(37) === true) { //left arrow
+    // setInterval(laserProjectile("left"), 2000);
     laserProjectile("left");
   }
 
   if (keyIsDown(40) === true) { //down arrow
+    // setInterval(laserProjectile("down"), 2000);
     laserProjectile("down");
   }
 
   if (keyIsDown(39) === true) { //right arrow
+    // setInterval(laserProjectile("right"), 2000);
     laserProjectile("right");
   }
 }
@@ -447,33 +462,45 @@ function movementWASD() {
 
 //
 function laserProjectile(arrowedDirection) {
-  if (arrowedDirection === "up") {
+  if (arrowedDirection === "up" && playerLaserAmount > 0) {
     let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
+    if (playerLaserAmount >= 0) {
+      playerLaserAmount--;
+    }
     // playerLaser.display();
     // playerLaser.move(laserDirection);
   }
 
-  if (arrowedDirection === "left") {
+  if (arrowedDirection === "left" && playerLaserAmount > 0) {
     // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
     let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
+    if (playerLaserAmount >= 0) {
+      playerLaserAmount--;
+    }
     // playerLaser.display();
     // playerLaser.move(laserDirection);
   }
 
-  if (arrowedDirection === "down") {
+  if (arrowedDirection === "down" && playerLaserAmount > 0) {
     // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
     let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
+    if (playerLaserAmount >= 0) {
+      playerLaserAmount--;
+    }
     // playerLaser.display();
     // playerLaser.move(laserDirection);
   }
 
-  if (arrowedDirection === "right") {
+  if (arrowedDirection === "right" && playerLaserAmount > 0) {
     // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
     let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
+    if (playerLaserAmount >= 0) {
+      playerLaserAmount--;
+    }
     // playerLaser.display();
     // playerLaser.move(laserDirection);
   }
@@ -483,6 +510,21 @@ function laserProjectile(arrowedDirection) {
   //   laser.move(laserDirection);
   // }
 }
+
+
+function addPlayerLasers() {
+  if (playerLaserAmount < 10) {
+    setInterval(playerLaserAmount++, 2000);
+  }
+}
+
+
+function displayLaserAmountTest() {
+  fill("green");
+  textSize(200);
+  text(playerLaserAmount, width/2, height/2);
+}
+
 
 //Check for collision by checking the shape's location before the player shape actually collides
 
@@ -551,6 +593,20 @@ function opponentAndPlayerCollisionDetection(opponent) {
   }
   if (playerHpPercentage === 100) {
     gameScreenState = "game over";
+  }
+}
+
+
+//
+function opponentAndLaserCollisionDetection(laser) {
+  for (let opponent of opponentArray) {
+    if (collideRectCircle(laser.x, laser.y, laser.w, laser.h, opponent.x, opponent.y, opponent.d)) {
+      opponent.hp++;
+    }
+    if (opponent.hp === 100) {
+      let index = opponentArray.indexOf(opponent);
+      opponentArray.splice(index, 1);
+    }
   }
 }
 
