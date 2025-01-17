@@ -275,7 +275,7 @@ function draw() {
         console.log("border");
       }
       else {
-        //laser.move();
+        laser.move();
         laser.display();
       }
     }
@@ -291,6 +291,7 @@ function draw() {
     for (let opponent of opponentArray) {
       opponent.display();
       opponent.move();
+      opponentAndPlayerCollisionDetection(opponent);
     }
 
     //movingOpponent(); //With angleMode(DEGREES) in setup a part of this, from rotate demo on p5js website
@@ -320,8 +321,9 @@ function displayStartScreen() {
 // This function displays the game over screen of the game
 function displayGameOverScreen() {
   fill("yellow");
-  text("Game Over");
-  text("Play Again");
+  textSize(200);
+  text("Game Over", width/2 - 500, height/2);
+  text("Play Again", width/2, height/2 + 200);
 }
 
 
@@ -337,13 +339,6 @@ function displayPlayer() {
   fill("red");
   square(squareX, squareY, squareSize);
 }
-
-
-// A maybe test function for displaying the player with mouseX and Y for collision testing.
-// function displayTestPlayer() {
-//   fill("red");
-//   square(mouseX, mouseY, squareSize);
-// }
 
 
 // This a temporary function for now to test collison detection for the player's square with a rect shape.
@@ -491,6 +486,7 @@ function laserProjectile(arrowedDirection) {
 
 //Check for collision by checking the shape's location before the player shape actually collides
 
+//
 function opponentDraw() {
   if (opponentDrawState === "room one") {
     opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
@@ -538,9 +534,23 @@ function displayPlayerStats() {
 function playerHpSystem() {
   fill("red");
   rect(50 + 80, 35, squareSize - 50 + playerHp, squareSize - 20);
-  playerHp++;
-  if (playerHpPercentage < 100) {
+  // playerHp++;
+  // if (playerHpPercentage < 100) {
+  //   playerHpPercentage++;
+  // }
+}
+
+
+//
+function opponentAndPlayerCollisionDetection(opponent) {
+  if (collideRectCircle(squareX, squareY, squareSize, squareSize, opponent.x, opponent.y, opponent.d) && playerHp < 250) {
     playerHpPercentage++;
+    playerHp += 2.5;
+    console.log("percentage " + playerHpPercentage);
+    console.log("hp " + playerHp);
+  }
+  if (playerHpPercentage === 100) {
+    gameScreenState = "game over";
   }
 }
 
