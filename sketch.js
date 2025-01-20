@@ -34,8 +34,8 @@
 //setInterval() --for doing things repeated, from demo (function, milliseconds like 1000 [= 1 second])
 
 
-let squareX = 740;
-let squareY = 400;
+let squareX;
+let squareY;
 let squareSize = 50;
 
 let newSquareX = 740;
@@ -87,6 +87,12 @@ let pressTest1;
 let pressTest2;
 
 let gameScreenState = "start screen";
+let gameRoomState = "room one";
+
+let roomOne;
+let roomTwo;
+
+let playerIsMoving = false;
 
 
 // This class gives the ability to display rects that act like moving laser projectiles, with the player's arrow key presses deciding which direction each new rect will go
@@ -189,8 +195,11 @@ class Opponent {
 
 //---------------------
 function preload() {
-  pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
-  pressTest2 = loadJSON("examplelevel.json", loadRoomDrawing);
+  roomOne = loadJSON("1st-room.json", loadRoomDrawing);
+  roomTwo = loadJSON("1st-room-updated.json", loadRoomDrawing);
+  //pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
+  //pressTest2 = loadJSON("examplelevel.json", loadRoomDrawing);
+
   // pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
   // pressTest2 = loadJSON("examplelevel.json", loadRoomDrawing);
   // let test = loadJSON("examplelevel.json", loadRoomDrawing);
@@ -265,10 +274,10 @@ function draw() {
     displayGameOverScreen();
   }
   else {
+    gameRoomChanger();
     //circle(mouseX, mouseY, 20);
     //displayOpponents();
     displayPlayer();
-    displayTestRect();
     movementWASD();
     //drawLazer();
     for (let laser of laserArray) {
@@ -279,10 +288,12 @@ function draw() {
         console.log("border");
       }
       else {
-        laser.move();
+        //laser.move();
         laser.display();
       }
     }
+
+    //playerCanvasCollisionDectection();
 
     //------------------------------
     for (let shape of roomDrawn) {
@@ -290,7 +301,7 @@ function draw() {
       shape.display();
     }
 
-    opponentDraw();
+    //opponentDraw();
 
     for (let opponent of opponentArray) {
       opponent.display();
@@ -303,6 +314,9 @@ function draw() {
     displayPlayerStats();
     //addPlayerLasers();
     //displayLaserAmountTest();
+    // if (playerLaserAmount < 10) {
+    //   setInterval(addLasers(), 100000000000000);
+    // }
   }
 }
 
@@ -338,6 +352,15 @@ function displayGameOverScreen() {
 }
 
 
+//--last here in the code
+function gameRoomChanger() {
+  if (gameRoomState === "room one") {
+    squareX = 190;
+    squareY = 450;
+  }
+}
+
+
 // This function displays the opponents -- planned to be in the thought of later levels.
 // function displayOpponents() {
 //   fill("green");
@@ -349,14 +372,6 @@ function displayGameOverScreen() {
 function displayPlayer() {
   fill("red");
   square(squareX, squareY, squareSize);
-}
-
-
-// This a temporary function for now to test collison detection for the player's square with a rect shape.
-function displayTestRect() {
-  fill("yellow");
-  rect(testShapeX, testShapeY, testShapeW, testShapeH);
-  rect(testShapeX - 100, testShapeY, testShapeW, testShapeH);
 }
 
 
@@ -465,57 +480,49 @@ function laserProjectile(arrowedDirection) {
   if (arrowedDirection === "up" && playerLaserAmount > 0) {
     let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
-    if (playerLaserAmount >= 0) {
-      playerLaserAmount--;
-    }
-    // playerLaser.display();
-    // playerLaser.move(laserDirection);
+    // if (playerLaserAmount >= 0) {
+    //   playerLaserAmount--;
+    // }
   }
 
   if (arrowedDirection === "left" && playerLaserAmount > 0) {
     // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
     let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
-    if (playerLaserAmount >= 0) {
-      playerLaserAmount--;
-    }
-    // playerLaser.display();
-    // playerLaser.move(laserDirection);
+    // if (playerLaserAmount >= 0) {
+    //   playerLaserAmount--;
+    // }
   }
 
   if (arrowedDirection === "down" && playerLaserAmount > 0) {
     // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
     let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
-    if (playerLaserAmount >= 0) {
-      playerLaserAmount--;
-    }
-    // playerLaser.display();
-    // playerLaser.move(laserDirection);
+    // if (playerLaserAmount >= 0) {
+    //   playerLaserAmount--;
+    // }
   }
 
   if (arrowedDirection === "right" && playerLaserAmount > 0) {
     // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
     let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
-    if (playerLaserAmount >= 0) {
-      playerLaserAmount--;
-    }
-    // playerLaser.display();
-    // playerLaser.move(laserDirection);
+    // if (playerLaserAmount >= 0) {
+    //   playerLaserAmount--;
+    // }
   }
-
-  // for (let laser of laserArray) {
-  //   laser.display();
-  //   laser.move(laserDirection);
-  // }
 }
 
 
 function addPlayerLasers() {
   if (playerLaserAmount < 10) {
-    setInterval(playerLaserAmount++, 2000);
+    setInterval(addLasers(), 10000);
   }
+}
+
+
+function addLasers() {
+  playerLaserAmount++;
 }
 
 
@@ -546,6 +553,19 @@ function opponentDraw() {
 //   line(0, 0, 150, 0);
 //   noStroke();
 // }
+
+
+// function playerCanvasCollisionDectection() {
+//   // if (squareX < 0) { 
+//   //   console.log("test");
+//   // }
+//   // else if (squareY > height - squareSize) {
+//   //   console.log("test2");
+//   // }
+// }
+
+
+//squareX > width - squareSize || squareY < 0 ||
 
 
 //
