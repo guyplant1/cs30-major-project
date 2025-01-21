@@ -1,39 +1,11 @@
 // Major Project
 // Syhon
-// Date
+// January 21 2025
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
-// I'm thinking to change the project to a flat view and 2D game, but still have the same details for the rest mostly (for ideas).
-
-// Plans: 1. Opponents' actions  2. Laser collison with opponents  3. Start screen  4. Game over screen  5. Player HP system
-// 6. Make level map  7. Video cutscenes  --8. Laser border
+// I would say the experimentation of loading and saving JSON files differently from how we learned how to use JSON files in class.
 
 
-// class Player {
-//   constructor(squareX, squareY, squareSize, color) {
-//     this.x = squareX;
-//     this.y = squareY;
-//     this.size = squareSize;
-//     this.color = color;
-//   }
-
-//   display() {
-//     fill("red");
-//     square(this.x, this.y, this.size);
-//   }
-// }
-
-
-// Opponent ideas: 1. Moving  2. Aim for player with laser--examples p5  3. Line of circles/or a rectangle rotating--examples p5  4. Boss character
-// Moving--bounce movements | Aim--objects being directed to the player's location | Rotate--rotating obstacle | Follow/Dodge--follows player's location | Size increase/decrease | Boss Character
-
-// --saveJSON(laserArray, "examplelevel.json")
-
-//setInterval() --for doing things repeated, from demo (function, milliseconds like 1000 [= 1 second])
-
-//----------------
 let squareX = 125;
 let squareY = 450;
 let squareSize = 50;
@@ -65,9 +37,6 @@ let opponentDrawState = "room two";
 let opponentArray = [];
 let laserArray = [];
 let gameLevelRoom = [];
-// let testArray = ["a", "b", "c"];
-// let testArrayTwo = [];
-// let testVariable;
 
 let exampleLevel = [];
 let testRoom = [];
@@ -90,7 +59,7 @@ let hit = false;
 let pressTest1;
 let pressTest2;
 
-let gameScreenState = "start screen"; //"start screen";
+let gameScreenState = "start screen";
 let playerPositionRoomState = "start position one";
 
 let currentRoom = 1;
@@ -101,7 +70,6 @@ let roomFour;
 let roomFive;
 let roomSix;
 
-//let playerIsMobile = true;
 let playerIsMovable = true;
 
 let introCutscene;
@@ -109,7 +77,7 @@ let gameEndCutscene;
 let cutsceneState = "hidden";
 
 
-// This class gives the ability to display rects that act like moving laser projectiles, with the player's arrow key presses deciding which direction each new rect will go
+// This class gives the ability to display rects that act like moving laser projectiles, with the player's arrow key presses deciding which direction each new rect will go.
 class Laser {
   constructor(x, y, w, h, arrowedDirection) {
     this.x = x;
@@ -151,27 +119,7 @@ class Laser {
 }
 
 
-// This class is planned to be used to draw the rooms in the project
-// class DrawingLaser {
-//   constructor(x, y, w, h) {
-//     this.x = x;
-//     this.y = y;
-//     this.w = w;
-//     this.h = h;
-//     this.r = 255;
-//     this.g = 0;
-//     this.b = 0;
-//     this.opacity = 255;
-//   }
-
-//   display() {
-//     fill(this.r, this.g, this.b, this.opacity);
-//     rect(this.x, this.y, this.w, this.h);
-//   }
-// }
-
-
-// This class gives the ability to display (so far) a circle/circles that moves back and forth from one point on the screen to another
+// This class gives the ability to display a circle/circles that moves back and forth from one point on the screen to another.
 class Opponent {
   constructor(x, y) {
     this.x = x;
@@ -207,7 +155,7 @@ class Opponent {
 }
 
 
-//---------------------
+// In the preload, all the rooms saved and loaded from me drawing with lasers are preloaded here in the code.
 function preload() {
   roomOne = loadJSON("1st-room.json", loadRoomDrawing);
   roomTwo = loadJSON("2nd-room.json", loadRoomDrawing);
@@ -215,130 +163,82 @@ function preload() {
   roomFour = loadJSON("4th-room.json", loadRoomDrawing);
   roomFive = loadJSON("5th-room.json", loadRoomDrawing);
   roomSix = loadJSON("6th-room.json", loadRoomDrawing);
-  //roomTwo = loadJSON("1st-room-updated.json", loadRoomDrawing);
-  //pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
-  //pressTest2 = loadJSON("examplelevel.json", loadRoomDrawing);
-
-  // pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
-  // pressTest2 = loadJSON("examplelevel.json", loadRoomDrawing);
-  // let test = loadJSON("examplelevel.json", loadRoomDrawing);
-  //loadJSON("testroom3.json", loadRoomDrawing);
-  // testVariable = loadJSON("testletters.json");
 }
 
 
-//following JSON p5 example, also using what's in preload()
-// function loadData(laserArray) {
-
-// }
-
-
-// --------------------------------------
+// This function puts all of the drawing rects in different arrays to have ready to be drawn on the canvas when the player progresses through the game.
 function loadRoomDrawing(roomData) {
-  //testRoom = [];
-  //roomDrawn = [];
   if (roomCounter === 1) {
     for (let shape of roomData) {
-      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
       let x = shape.x;
       let y = shape.y;
       let w = shape.w;
       let h = shape.h;
-      //roomDrawn.push(new Laser(x, y, w, h));
       roomArray.push(new Laser(x, y, w, h));
-      //console.log(laser);
     }
   }
 
   else if (roomCounter === 2) {
     for (let shape of roomData) {
-      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
       let x = shape.x;
       let y = shape.y;
       let w = shape.w;
       let h = shape.h;
-      //roomDrawn.push(new Laser(x, y, w, h));
       roomArray2.push(new Laser(x, y, w, h));
-      //console.log(laser);
     }
   }
 
   else if (roomCounter === 3) {
     for (let shape of roomData) {
-      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
       let x = shape.x;
       let y = shape.y;
       let w = shape.w;
       let h = shape.h;
-      //roomDrawn.push(new Laser(x, y, w, h));
       roomArray3.push(new Laser(x, y, w, h));
-      //console.log(laser);
     }
   }
 
   else if (roomCounter === 4) {
     for (let shape of roomData) {
-      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
       let x = shape.x;
       let y = shape.y;
       let w = shape.w;
       let h = shape.h;
-      //roomDrawn.push(new Laser(x, y, w, h));
       roomArray4.push(new Laser(x, y, w, h));
-      //console.log(laser);
     }
   }
 
   else if (roomCounter === 5) {
     for (let shape of roomData) {
-      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
       let x = shape.x;
       let y = shape.y;
       let w = shape.w;
       let h = shape.h;
-      //roomDrawn.push(new Laser(x, y, w, h));
       roomArray5.push(new Laser(x, y, w, h));
-      //console.log(laser);
     }
   }
 
   else if (roomCounter === 6) {
     for (let shape of roomData) {
-      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
       let x = shape.x;
       let y = shape.y;
       let w = shape.w;
       let h = shape.h;
-      //roomDrawn.push(new Laser(x, y, w, h));
       roomArray6.push(new Laser(x, y, w, h));
-      //console.log(laser);
     }
   }
   roomCounter++;
 }
 
-//I have an idea to use testletters.json in the project to see if it can be in the laserArray and be loaded data in the above function, maybe coded a little bit different than what's above in the function.
-
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  noStroke();
   introCutscene = createVideo(["IntroCutscene.mp4"]);
   gameEndCutscene = createVideo(["GameEndCutscene.mp4"]);
-  //video = createVideo(["IntroCutscene.mp4"]);
-  //video.hide();
-  circleX = windowWidth/2 + 100; //200
+  circleX = windowWidth/2 + 100;
   circleY = windowHeight/2 + 200;
-  //angleMode(DEGREES);
-  // setInterval(playerHpSystem(), 200);
-  //loadJSON("examplelevel.json", loadLaserDrawing);
-  //console.log(laserArray);
-  //console.log(exampleLevel);
-  //loadLaserDrawing(); //-------------------
-  //console.log(gameLevelRoom);
-  // testArrayTwo = testVariable;
-  // console.log(testArrayTwo);
 }
+
 
 function draw() {
   background(220);
@@ -352,13 +252,9 @@ function draw() {
     displayGameOverScreen();
   }
   else {
-    playerRoomPositionChanger();
     roomStateChanger();
-    //circle(mouseX, mouseY, 20);
-    //displayOpponents();
     displayPlayer();
-    movementWASD();
-    //drawLazer();
+    movementWasdAndLaserArrowKeys();
     for (let laser of laserArray) {
       opponentAndLaserCollisionDetection(laser);
       if (laser.x < 0 || laser.x > width - laser.w || laser.y < 0 || laser.y > height - laser.h) {
@@ -373,9 +269,7 @@ function draw() {
 
     playerCanvasCollisionDectection();
 
-    //------------------------------
     for (let shape of roomDrawn) {
-      //laser.move();
       shape.display();
     }
 
@@ -387,19 +281,12 @@ function draw() {
       opponentAndPlayerCollisionDetection(opponent);
     }
 
-    //movingOpponent(); //With angleMode(DEGREES) in setup a part of this, from rotate demo on p5js website
-
     displayPlayerStats();
-    //addPlayerLasers();
-    //displayLaserAmountTest();
-    // if (playerLaserAmount < 10) {
-    //   setInterval(addLasers(), 100000000000000);
-    // }
   }
 }
 
 
-// This function displays the start screen of the game
+// This function displays the start screen of the game.
 function displayStartScreen() {
   fill("orange");
   rect(width/2 - 360, height/2 - 305, 700, 200);
@@ -419,14 +306,13 @@ function displayStartScreen() {
 }
 
 
-//
+// This function displays the cutscenes of the project, and gives the user the ability to skip the cutscenes by pressing C.
 function cutscenePlayerAndSkipper() {
   if (gameScreenState === "intro cutscene") {
     image(introCutscene, 5, 1);
     introCutscene.loop();
     gameEndCutscene.hide();
     if (key === "c") {
-      //cutsceneState = "hidden";
       introCutscene.hide();
       gameScreenState = "start game";
     }
@@ -435,36 +321,10 @@ function cutscenePlayerAndSkipper() {
     image(gameEndCutscene, 5, 1);
     gameEndCutscene.loop();
     if (key === "c") {
-      //cutsceneState = "hidden";
       gameEndCutscene.hide();
       gameScreenState = "start game";
     }
   }
-  //cutsceneState = "playing";
-  //console.log(cutsceneState);
-  // if (mouseIsPressed) {
-  //   if (cutsceneState === "hidden") {
-      
-  //   }
-  // }
-
-  // if (mouseIsPressed && cutsceneState === "playing") {
-  //   cutsceneState = "hidden";
-  //   video.hide();
-  //   console.log(cutsceneState);
-  // }
-  // else if (cutsceneState === "playing") {
-  //   cutsceneState = "hidden";
-  //   video.hide();
-  //   console.log(cutsceneState);
-  // }
-  //gameScreenState = "start game";
-  // if (skipCutscene === false) {
-    
-  // }
-  // else {
-    
-  // }
 }
 
 
@@ -475,60 +335,19 @@ function displayGameOverScreen() {
   text("Game Over", width/2 - 500, height/2);
   textSize(150);
   text("Restart to Play Again", width/2 - 700, height/2 + 200);
-  // if (mouseIsPressed) {
-  //   playerHp = 0;
-  //   playerHpPercentage = 0;
-  //   gameScreenState = "start game";
-  // }
-}
-
-
-//
-function playerRoomPositionChanger() {
-  // if (playerPositionRoomState === "start position one") {
-  //   squareX = 190;
-  //   squareY = 450;
-  //   playerPositionRoomState = "movable";
-  //   //playerPositionRoomState = "start position two";
-  //   console.log("test");
-  // }
-  // if (playerPositionRoomState === "start position two") {
-  //   //console.log("position2");
-  //   //console.log(playerPositionRoomState);
-  //   squareX = 200;
-  //   squareY = 200;
-  //   playerPositionRoomState = "immovable";
-  // }
 }
 
 
 //
 function roomStateChanger() {
   if (currentRoom === 1) {
-    //playerIsMovable = false;
     roomDrawn = roomArray;
-    // squareX = 190;
-    // squareY = 450;
-    // playerIsMovable = true;
   }
   if (currentRoom === 2) {
-    //playerIsMovable = false;
     roomDrawn = roomArray2;
     playerPositionRoomState === "start position two";
-    //console.log(playerPositionRoomState);
-    // squareX = 200;
-    // squareY = 200;
-    // playerIsMovable = true;
-    //console.log(playerPositionRoomState);
   }
 }
-
-
-// This function displays the opponents -- planned to be in the thought of later levels.
-// function displayOpponents() {
-//   fill("green");
-//   circle(circleX, circleY, circleDiameter);
-// }
 
 
 // This function displays the player.
@@ -538,27 +357,8 @@ function displayPlayer() {
 }
 
 
-// This function allows the player to move the red square character on the screen by WASD key pressing. -- Also, the player is planned to have a laser attack by using the arrow keys.
-function movementWASD() {
-  //console.log(playerIsMobile);
-  //if (playerIsMobile) {
-  // if (squareX >! width - squareSize) {
-  //   playerPositionRoomState = "moved";
-  //   console.log(playerPositionRoomState);
-  //   //console.log("test");
-  // }
-  //console.log(playerPositionRoomState);
-    
-  //}
-
-  //if (playerIsMovable === true) {
-  // if (playerPositionRoomState === "movable") {
-  //   // else {
-  //   // //   console.log("testposition");
-  //   // // }
-    
-  // }
-  //console.log(playerIsMovable);
+// This function allows the player to move the red square character on the screen by WASD key pressing. Also, the has a laser attack by using the arrow keys.
+function movementWasdAndLaserArrowKeys() {
   let moveSpeed = 5;
   if (keyIsDown(87) === true) { //w
     newSquareY -= moveSpeed;
@@ -628,127 +428,50 @@ function movementWASD() {
     }
   }
 
-  // if (keyIsDown(81) === true) { //q
-  //   roomDrawn = roomArray;
-  // }
-  // else {
-  //   roomDrawn = roomArray2;
-  // }
-
   if (keyIsDown(38) === true) { //up arrow
-    // setInterval(laserProjectile("up"), 10000);
     laserProjectile("up");
   }
 
   if (keyIsDown(37) === true) { //left arrow
-    // setInterval(laserProjectile("left"), 2000);
     laserProjectile("left");
   }
 
   if (keyIsDown(40) === true) { //down arrow
-    // setInterval(laserProjectile("down"), 2000);
     laserProjectile("down");
   }
 
   if (keyIsDown(39) === true) { //right arrow
-    // setInterval(laserProjectile("right"), 2000);
     laserProjectile("right");
   }
 }
 
-// if (keyIsDown(87) === true || keyIsDown(65) === true || keyIsDown(83) === true || keyIsDown(68) === true) {
-//   playerIsMovable = true;
-//   //console.log(playerIsMovable);
-//   //}
-// }
 
-
-//
+// This function makes the decisions on how the lasers from the player will be displayed.
 function laserProjectile(arrowedDirection) {
   if (arrowedDirection === "up" && playerLaserAmount > 0) {
     let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
-    // if (playerLaserAmount >= 0) {
-    //   playerLaserAmount--;
-    // }
   }
 
   if (arrowedDirection === "left" && playerLaserAmount > 0) {
-    // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
     let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
-    // if (playerLaserAmount >= 0) {
-    //   playerLaserAmount--;
-    // }
   }
 
   if (arrowedDirection === "down" && playerLaserAmount > 0) {
-    // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
     let playerLaser = new Laser(squareX, squareY, UP_AND_DOWN_LASER_WIDTH, UP_AND_DOWN_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
-    // if (playerLaserAmount >= 0) {
-    //   playerLaserAmount--;
-    // }
   }
 
   if (arrowedDirection === "right" && playerLaserAmount > 0) {
-    // rect(squareX, squareY, LASER_WIDTH, LASER_HEIGHT);
     let playerLaser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT, arrowedDirection);
     laserArray.push(playerLaser);
-    // if (playerLaserAmount >= 0) {
-    //   playerLaserAmount--;
-    // }
   }
 }
 
 
-function addPlayerLasers() {
-  if (playerLaserAmount < 10) {
-    setInterval(addLasers(), 10000);
-  }
-}
-
-
-function addLasers() {
-  playerLaserAmount++;
-}
-
-
-function displayLaserAmountTest() {
-  fill("green");
-  textSize(200);
-  text(playerLaserAmount, width/2, height/2);
-}
-
-
-//Check for collision by checking the shape's location before the player shape actually collides
-
-//
+// This function displays the circle opponents of the game.
 function opponentDraw() {
-  // if (opponentDrawState === "room one") {
-  //   opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
-  //   opponentDrawState = "room stable";
-  // }
-  // if (currentRoom === 2) {
-  //   opponentDrawState = "room two";
-  // }
-
-  // else if (currentRoom === 3) {
-  //   opponentDrawState = "room three";
-  // }
-
-  // else if (currentRoom === 4) {
-  //   opponentDrawState = "room four";
-  // }
-
-  // else if (currentRoom === 5) {
-  //   opponentDrawState = "room five";
-  // }
-
-  // else if (currentRoom === 6) {
-  //   opponentDrawState = "room six";
-  // }
-
   if (opponentDrawState === "room two") {
     opponentArray = [];
     opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
@@ -785,7 +508,7 @@ function opponentDraw() {
 }
 
 
-//
+// This function changes the current room displayed in the game based on when the player touches the right side of the canvas.
 function playerCanvasCollisionDectection() {
   if (squareX > width - squareSize) {
     if (currentRoom === 1) {
@@ -828,39 +551,11 @@ function playerCanvasCollisionDectection() {
       squareY = 350;
       gameScreenState = "game end cutscene";
     }
-
-    //currentRoom++;
-    // if (playerPositionRoomState === "start position one") {
-    //   playerPositionRoomState = "start position two";
-    // }
-    //playerPositionRoomState === "start position two";
-    // if (playerPositionRoomState === "start position one") {
-    //   playerPositionRoomState === "start position two";
-    //   console.log("2");
-    // }
-    //console.log("room" + currentRoom);
   }
-  //   if (current === "room one") {
-  //     roomState = "room two";
-  //   }
-  //   else if (roomState === "room two") {
-  //     roomState = "room three";
-  //   }
-  // }
-
-  // if (squareX < 0) { 
-  //   console.log("test");
-  // }
-  // else if (squareY > height - squareSize) {
-  //   console.log("test2");
-  // }
 }
 
 
-//squareX > width - squareSize || squareY < 0 ||
-
-
-//
+// This function displays the player's stats/hud of their HP system visually.
 function displayPlayerStats() {
   fill("black");
   rect(width/2 - 800, 0, width, 100);
@@ -874,9 +569,8 @@ function displayPlayerStats() {
     rect(50 + 80, 35, squareSize + 200, squareSize - 20);
   }
 
-  stroke("white"); //fix stroke note
   fill("red");
-  stroke("green"); //final stroke result green here
+  stroke("green");
   square(50, 25, squareSize);
   strokeWeight(2);
   textSize(50);
@@ -884,18 +578,14 @@ function displayPlayerStats() {
 }
 
 
-//
+// This function makes a rect appear on the canvas to represent the player's HP.
 function playerHpSystem() {
   fill("red");
   rect(50 + 80, 35, squareSize - 50 + playerHp, squareSize - 20);
-  // playerHp++;
-  // if (playerHpPercentage < 100) {
-  //   playerHpPercentage++;
-  // }
 }
 
 
-//
+// This function affects the HP system of the player when the player and an opponent collide on the canvas.
 function opponentAndPlayerCollisionDetection(opponent) {
   if (collideRectCircle(squareX, squareY, squareSize, squareSize, opponent.x, opponent.y, opponent.d) && playerHp < 250) {
     playerHpPercentage++;
@@ -909,7 +599,7 @@ function opponentAndPlayerCollisionDetection(opponent) {
 }
 
 
-//
+// This function affects the hidden HP system of any of the opponents on the canvas when the player's laser(s) collides with the opponent.
 function opponentAndLaserCollisionDetection(laser) {
   for (let opponent of opponentArray) {
     if (collideRectCircle(laser.x, laser.y, laser.w, laser.h, opponent.x, opponent.y, opponent.d)) {
@@ -921,184 +611,3 @@ function opponentAndLaserCollisionDetection(laser) {
     }
   }
 }
-//-----------------------------------
-
-// So far plan notes: Opponent and player interaction.  Room drawing/drawn, and checking collision with player.  Fix/clear code.
-
-
-// function drawLazer() {
-//   if (mouseIsPressed === true) {
-//     fill("red");
-//     square(mouseX, mouseY, squareSize);
-//     text("click", mouseX, mouseY);
-//     console.log("click");
-//   }
-// }
-
-
-// const CYL_Y = 0;
-// let boxY = 0;
-// let boxX = 10;
-// let boxZ = 10;
-// let cylX = 100;
-// let cylZ = 100;
-
-// let camX = 0;
-// let camY = -300;
-// let camZ = 100;
-
-// let gameGrid;
-// let cellSize;
-// let colorState = "red";
-
-// function setup() {
-//   createCanvas(windowWidth, windowHeight, WEBGL);
-//   debugMode();
-//   cellSize = height/12;
-//   //gameGrid = generateGrid(boxX, boxY);
-// }
-
-// function draw() {
-//   background(220);
-//   //circle(mouseX, mouseY, 100);
-//   orbitControl();
-//   charactersDisplay();
-//   //fill("green");
-//   //camera(camX, camY, camZ);
-//   //square(100, 200, 25);
-//   gameBorder();
-//   //sphereDisplay();
-//   //displayGrid();
-//   //box(25, 125, 25, 2, 100);
-// }
-
-// function keyPressed() {
-//   if (key === "w") {
-//     boxZ -= 100;
-//     //camZ -= 100;
-//   }
-//   if (key === "a") {
-//     boxX -= 100;
-//   }
-//   if (key === "s") {
-//     boxZ += 100;
-//   }
-//   if (key === "d") {
-//     boxX += 100;
-//   }
-//   if (key === " ") {
-//     boxY -= 100;
-//   }
-//   if (key === "1") {
-//     boxY += 100;
-//   }
-// }
-
-// function charactersDisplay() {
-//   push();
-//   translate(15, 0, 20);
-//   fill("green");
-//   sphere(40);
-//   pop();
-//   translate(boxX, boxY, boxZ + 150);
-//   fill("red");
-//   box();
-// }
-
-// function gameBorder() {
-//   push();
-//   translate(100, 0, -350);
-//   fill("orange");
-//   box(1000, 500, 50);
-//   pop();
-//   push();
-//   translate(1000, 0, 50);
-//   fill("orange");
-//   box(800, 700, 1000);
-//   pop();
-//   // push();
-//   // translate(100, 0, 100);
-//   // fill("orange");
-//   // box(50, 500, 200);
-//   // pop();
-//   // push();
-//   // translate(-100, 0, 100);
-//   // fill("orange");
-//   // box(50, 500, 200);
-//   // pop();
-// }
-
-// function sphereDisplay() {
-//   push();
-//   translate(-50, 0, -100);
-//   fill('red');
-//   sphere(50);
-//   pop();
-
-//   push();
-//   translate(0, -100, -300);
-//   fill('green');
-//   sphere(50);
-//   pop();
-
-//   push();
-//   translate(25, 25, 50);
-//   fill('blue');
-//   sphere(50);
-//   pop();
-// }
-
-// function generateGrid(cols, rows) {
-//   let newGrid = [];
-//   for (let y = 0; y < rows; y++) {
-//     for (let x = 0; x < cols; x++) {
-//       // if (random(100) < 50) {
-//       //   newGrid[y].push(0);
-//       // }
-//       // else {
-//       //   newGrid[y].push(1);
-//       // }
-//       //newGrid[y].push(Math.floor(random(255)));
-//     }
-//   }
-//   return newGrid;
-// }
-
-// function displayGrid() {
-//   //let color = 0;
-//   let bw = 20;
-//   let bh = 10;
-//   let bd = 1;
-//   for (let y = 0; y < 1; y++) {
-//     for (let x = 0; x < 1; x++) {
-//       // if (gameGrid[y][x] === 0) {
-//       //   fill("black");
-//       // }
-//       // else if (gameGrid[y][x] === 1) {
-//       //   fill("white");
-//       // }
-//       //fill(random(255), random(255), random(255));
-//       //fill(random(255));
-//       // if (colorState === "red") {
-//       //   fill(colorState);
-//       //   box(boxX * cellSize, BOX_Y * cellSize, boxZ * cellSize);
-//       //   colorState = "green";
-//       // }
-//       // else if (colorState === "green") {
-//       //   fill(colorState);
-//       //   box(boxX * cellSize, BOX_Y * cellSize, boxZ * cellSize);
-//       //   colorState = "red";
-//       // }
-//       if (y === 0) {
-//         fill("orange");
-//       }
-//       else if (y === 1) {
-//         fill("green");
-//       }
-//       box(bw * cellSize, bh * cellSize, bd * cellSize);
-//       bw += 5;
-//       bh += 5;
-//       bd += 5;
-//     }
-//   }
-// }
