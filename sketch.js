@@ -33,9 +33,9 @@
 
 //setInterval() --for doing things repeated, from demo (function, milliseconds like 1000 [= 1 second])
 
-
-let squareX;
-let squareY;
+//----------------
+let squareX = 125;
+let squareY = 450;
 let squareSize = 50;
 
 let newSquareX = 740;
@@ -61,7 +61,7 @@ testShapeH = 200;
 
 let playerLaserAmount = 10;
 
-let opponentDrawState = "room one";
+let opponentDrawState = "room two";
 let opponentArray = [];
 let laserArray = [];
 let gameLevelRoom = [];
@@ -74,7 +74,11 @@ let testRoom = [];
 let roomDrawn = [];
 let roomArray = [];
 let roomArray2 = [];
-let roomCounter = 0;
+let roomArray3 = [];
+let roomArray4 = [];
+let roomArray5 = [];
+let roomArray6 = [];
+let roomCounter = 1;
 
 let playerUpState = "clear";
 let playerLeftState = "clear";
@@ -86,13 +90,23 @@ let hit = false;
 let pressTest1;
 let pressTest2;
 
-let gameScreenState = "start screen";
-let gameRoomState = "room one";
+let gameScreenState = "start screen"; //"start screen";
+let playerPositionRoomState = "start position one";
 
+let currentRoom = 1;
 let roomOne;
 let roomTwo;
+let roomThree;
+let roomFour;
+let roomFive;
+let roomSix;
 
-let playerIsMoving = false;
+//let playerIsMobile = true;
+let playerIsMovable = true;
+
+let introCutscene;
+let gameEndCutscene;
+let cutsceneState = "hidden";
 
 
 // This class gives the ability to display rects that act like moving laser projectiles, with the player's arrow key presses deciding which direction each new rect will go
@@ -196,7 +210,12 @@ class Opponent {
 //---------------------
 function preload() {
   roomOne = loadJSON("1st-room.json", loadRoomDrawing);
-  roomTwo = loadJSON("1st-room-updated.json", loadRoomDrawing);
+  roomTwo = loadJSON("2nd-room.json", loadRoomDrawing);
+  roomThree = loadJSON("3rd-room.json", loadRoomDrawing);
+  roomFour = loadJSON("4th-room.json", loadRoomDrawing);
+  roomFive = loadJSON("5th-room.json", loadRoomDrawing);
+  roomSix = loadJSON("6th-room.json", loadRoomDrawing);
+  //roomTwo = loadJSON("1st-room-updated.json", loadRoomDrawing);
   //pressTest1 = loadJSON("testroom3.json", loadRoomDrawing);
   //pressTest2 = loadJSON("examplelevel.json", loadRoomDrawing);
 
@@ -218,7 +237,7 @@ function preload() {
 function loadRoomDrawing(roomData) {
   //testRoom = [];
   //roomDrawn = [];
-  if (roomCounter === 0) {
+  if (roomCounter === 1) {
     for (let shape of roomData) {
       //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
       let x = shape.x;
@@ -231,7 +250,7 @@ function loadRoomDrawing(roomData) {
     }
   }
 
-  else if (roomCounter === 1) {
+  else if (roomCounter === 2) {
     for (let shape of roomData) {
       //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
       let x = shape.x;
@@ -240,6 +259,58 @@ function loadRoomDrawing(roomData) {
       let h = shape.h;
       //roomDrawn.push(new Laser(x, y, w, h));
       roomArray2.push(new Laser(x, y, w, h));
+      //console.log(laser);
+    }
+  }
+
+  else if (roomCounter === 3) {
+    for (let shape of roomData) {
+      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+      let x = shape.x;
+      let y = shape.y;
+      let w = shape.w;
+      let h = shape.h;
+      //roomDrawn.push(new Laser(x, y, w, h));
+      roomArray3.push(new Laser(x, y, w, h));
+      //console.log(laser);
+    }
+  }
+
+  else if (roomCounter === 4) {
+    for (let shape of roomData) {
+      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+      let x = shape.x;
+      let y = shape.y;
+      let w = shape.w;
+      let h = shape.h;
+      //roomDrawn.push(new Laser(x, y, w, h));
+      roomArray4.push(new Laser(x, y, w, h));
+      //console.log(laser);
+    }
+  }
+
+  else if (roomCounter === 5) {
+    for (let shape of roomData) {
+      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+      let x = shape.x;
+      let y = shape.y;
+      let w = shape.w;
+      let h = shape.h;
+      //roomDrawn.push(new Laser(x, y, w, h));
+      roomArray5.push(new Laser(x, y, w, h));
+      //console.log(laser);
+    }
+  }
+
+  else if (roomCounter === 6) {
+    for (let shape of roomData) {
+      //laser = new Laser(squareX, squareY, LEFT_AND_RIGHT_LASER_WIDTH, LEFT_AND_RIGHT_LASER_HEIGHT);
+      let x = shape.x;
+      let y = shape.y;
+      let w = shape.w;
+      let h = shape.h;
+      //roomDrawn.push(new Laser(x, y, w, h));
+      roomArray6.push(new Laser(x, y, w, h));
       //console.log(laser);
     }
   }
@@ -252,9 +323,13 @@ function loadRoomDrawing(roomData) {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noStroke();
+  introCutscene = createVideo(["IntroCutscene.mp4"]);
+  gameEndCutscene = createVideo(["GameEndCutscene.mp4"]);
+  //video = createVideo(["IntroCutscene.mp4"]);
+  //video.hide();
   circleX = windowWidth/2 + 100; //200
   circleY = windowHeight/2 + 200;
-  angleMode(DEGREES);
+  //angleMode(DEGREES);
   // setInterval(playerHpSystem(), 200);
   //loadJSON("examplelevel.json", loadLaserDrawing);
   //console.log(laserArray);
@@ -270,11 +345,15 @@ function draw() {
   if (gameScreenState === "start screen") {
     displayStartScreen();
   }
+  else if (gameScreenState === "intro cutscene" || gameScreenState === "game end cutscene") {
+    cutscenePlayerAndSkipper();
+  }
   else if (gameScreenState === "game over") {
     displayGameOverScreen();
   }
   else {
-    gameRoomChanger();
+    playerRoomPositionChanger();
+    roomStateChanger();
     //circle(mouseX, mouseY, 20);
     //displayOpponents();
     displayPlayer();
@@ -285,15 +364,14 @@ function draw() {
       if (laser.x < 0 || laser.x > width - laser.w || laser.y < 0 || laser.y > height - laser.h) {
         let index = laserArray.indexOf(laser);
         laserArray.splice(index, 1);
-        console.log("border");
       }
       else {
-        //laser.move();
+        laser.move();
         laser.display();
       }
     }
 
-    //playerCanvasCollisionDectection();
+    playerCanvasCollisionDectection();
 
     //------------------------------
     for (let shape of roomDrawn) {
@@ -301,7 +379,7 @@ function draw() {
       shape.display();
     }
 
-    //opponentDraw();
+    opponentDraw();
 
     for (let opponent of opponentArray) {
       opponent.display();
@@ -332,31 +410,116 @@ function displayStartScreen() {
   fill("red");
   textSize(200);
   text("Shapes", width/2 - 350, height/2 - 150);
+  text("Click to begin", width/2 - 600, height/2 + 100);
+  textSize(30);
+  text("controls: wasd is for movement, and arrow keys for launching lasers. Press the C key to skip cutscenes.", width/2 - 680, height/2 + 220);
   if (mouseIsPressed) {
-    gameScreenState = "start game";
+    gameScreenState = "intro cutscene";
   }
+}
+
+
+//
+function cutscenePlayerAndSkipper() {
+  if (gameScreenState === "intro cutscene") {
+    image(introCutscene, 5, 1);
+    introCutscene.loop();
+    gameEndCutscene.hide();
+    if (key === "c") {
+      //cutsceneState = "hidden";
+      introCutscene.hide();
+      gameScreenState = "start game";
+    }
+  }
+  else if (gameScreenState === "game end cutscene") {
+    image(gameEndCutscene, 5, 1);
+    gameEndCutscene.loop();
+    if (key === "c") {
+      //cutsceneState = "hidden";
+      gameEndCutscene.hide();
+      gameScreenState = "start game";
+    }
+  }
+  //cutsceneState = "playing";
+  //console.log(cutsceneState);
+  // if (mouseIsPressed) {
+  //   if (cutsceneState === "hidden") {
+      
+  //   }
+  // }
+
+  // if (mouseIsPressed && cutsceneState === "playing") {
+  //   cutsceneState = "hidden";
+  //   video.hide();
+  //   console.log(cutsceneState);
+  // }
+  // else if (cutsceneState === "playing") {
+  //   cutsceneState = "hidden";
+  //   video.hide();
+  //   console.log(cutsceneState);
+  // }
+  //gameScreenState = "start game";
+  // if (skipCutscene === false) {
+    
+  // }
+  // else {
+    
+  // }
 }
 
 
 // This function displays the game over screen of the game
 function displayGameOverScreen() {
-  fill("yellow");
+  fill("orange");
   textSize(200);
   text("Game Over", width/2 - 500, height/2);
-  text("Play Again", width/2, height/2 + 200);
-  if (mouseIsPressed) {
-    playerHp = 0;
-    playerHpPercentage = 0;
-    gameScreenState = "start game";
-  }
+  textSize(150);
+  text("Restart to Play Again", width/2 - 700, height/2 + 200);
+  // if (mouseIsPressed) {
+  //   playerHp = 0;
+  //   playerHpPercentage = 0;
+  //   gameScreenState = "start game";
+  // }
 }
 
 
-//--last here in the code
-function gameRoomChanger() {
-  if (gameRoomState === "room one") {
-    squareX = 190;
-    squareY = 450;
+//
+function playerRoomPositionChanger() {
+  // if (playerPositionRoomState === "start position one") {
+  //   squareX = 190;
+  //   squareY = 450;
+  //   playerPositionRoomState = "movable";
+  //   //playerPositionRoomState = "start position two";
+  //   console.log("test");
+  // }
+  // if (playerPositionRoomState === "start position two") {
+  //   //console.log("position2");
+  //   //console.log(playerPositionRoomState);
+  //   squareX = 200;
+  //   squareY = 200;
+  //   playerPositionRoomState = "immovable";
+  // }
+}
+
+
+//
+function roomStateChanger() {
+  if (currentRoom === 1) {
+    //playerIsMovable = false;
+    roomDrawn = roomArray;
+    // squareX = 190;
+    // squareY = 450;
+    // playerIsMovable = true;
+  }
+  if (currentRoom === 2) {
+    //playerIsMovable = false;
+    roomDrawn = roomArray2;
+    playerPositionRoomState === "start position two";
+    //console.log(playerPositionRoomState);
+    // squareX = 200;
+    // squareY = 200;
+    // playerIsMovable = true;
+    //console.log(playerPositionRoomState);
   }
 }
 
@@ -377,6 +540,25 @@ function displayPlayer() {
 
 // This function allows the player to move the red square character on the screen by WASD key pressing. -- Also, the player is planned to have a laser attack by using the arrow keys.
 function movementWASD() {
+  //console.log(playerIsMobile);
+  //if (playerIsMobile) {
+  // if (squareX >! width - squareSize) {
+  //   playerPositionRoomState = "moved";
+  //   console.log(playerPositionRoomState);
+  //   //console.log("test");
+  // }
+  //console.log(playerPositionRoomState);
+    
+  //}
+
+  //if (playerIsMovable === true) {
+  // if (playerPositionRoomState === "movable") {
+  //   // else {
+  //   // //   console.log("testposition");
+  //   // // }
+    
+  // }
+  //console.log(playerIsMovable);
   let moveSpeed = 5;
   if (keyIsDown(87) === true) { //w
     newSquareY -= moveSpeed;
@@ -446,12 +628,12 @@ function movementWASD() {
     }
   }
 
-  if (keyIsDown(81) === true) { //q
-    roomDrawn = roomArray;
-  }
-  else {
-    roomDrawn = roomArray2;
-  }
+  // if (keyIsDown(81) === true) { //q
+  //   roomDrawn = roomArray;
+  // }
+  // else {
+  //   roomDrawn = roomArray2;
+  // }
 
   if (keyIsDown(38) === true) { //up arrow
     // setInterval(laserProjectile("up"), 10000);
@@ -473,6 +655,12 @@ function movementWASD() {
     laserProjectile("right");
   }
 }
+
+// if (keyIsDown(87) === true || keyIsDown(65) === true || keyIsDown(83) === true || keyIsDown(68) === true) {
+//   playerIsMovable = true;
+//   //console.log(playerIsMovable);
+//   //}
+// }
 
 
 //
@@ -537,32 +725,136 @@ function displayLaserAmountTest() {
 
 //
 function opponentDraw() {
-  if (opponentDrawState === "room one") {
+  // if (opponentDrawState === "room one") {
+  //   opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
+  //   opponentDrawState = "room stable";
+  // }
+  // if (currentRoom === 2) {
+  //   opponentDrawState = "room two";
+  // }
+
+  // else if (currentRoom === 3) {
+  //   opponentDrawState = "room three";
+  // }
+
+  // else if (currentRoom === 4) {
+  //   opponentDrawState = "room four";
+  // }
+
+  // else if (currentRoom === 5) {
+  //   opponentDrawState = "room five";
+  // }
+
+  // else if (currentRoom === 6) {
+  //   opponentDrawState = "room six";
+  // }
+
+  if (opponentDrawState === "room two") {
+    opponentArray = [];
     opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
-    opponentDrawState = "room stable";
+    opponentArray.push(new Opponent(windowWidth/2, windowHeight/2 + 200));
+    opponentDrawState = "displayed";
+  }
+
+  else if (opponentDrawState === "room three") {
+    opponentArray = [];
+    opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
+    opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
+    opponentDrawState = "displayed";
+  }
+
+  else if (opponentDrawState === "room four") {
+    opponentArray = [];
+    opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
+    opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
+    opponentDrawState = "displayed";
+  }
+
+  else if (opponentDrawState === "room five") {
+    opponentArray = [];
+    opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
+    opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
+    opponentDrawState = "displayed";
+  }
+
+  else if (opponentDrawState === "room six") {
+    opponentArray = [];
+    opponentArray.push(new Opponent(windowWidth/2 + 100, windowHeight/2 + 200));
+    opponentDrawState = "displayed";
   }
 }
 
 
 //
-// function movingOpponent() {
-//   stroke("green");
-//   strokeWeight(20);
-//   translate(width/2, height/2);
-//   rotate(frameCount);
-//   line(0, 0, 150, 0);
-//   noStroke();
-// }
+function playerCanvasCollisionDectection() {
+  if (squareX > width - squareSize) {
+    if (currentRoom === 1) {
+      currentRoom = 2;
+      opponentDrawState = "room two";
+      roomDrawn = roomArray2;
+      squareX = 250;
+      squareY = 150;
+    }
 
+    else if (currentRoom === 2) {
+      currentRoom = 3;
+      opponentDrawState = "room three";
+      roomDrawn = roomArray3;
+      squareX = 1350;
+      squareY = 680;
+    }
 
-// function playerCanvasCollisionDectection() {
-//   // if (squareX < 0) { 
-//   //   console.log("test");
-//   // }
-//   // else if (squareY > height - squareSize) {
-//   //   console.log("test2");
-//   // }
-// }
+    else if (currentRoom === 3) {
+      currentRoom = 4;
+      opponentDrawState = "room four";
+      roomDrawn = roomArray4;
+      squareX = 40;
+      squareY = 600;
+    }
+
+    else if (currentRoom === 4) {
+      currentRoom = 5;
+      opponentDrawState = "room five";
+      roomDrawn = roomArray5;
+      squareX = 720;
+      squareY = 670;
+    }
+
+    else if (currentRoom === 5) {
+      currentRoom = 6;
+      opponentDrawState = "room five";
+      roomDrawn = roomArray6;
+      squareX = 720;
+      squareY = 350;
+      gameScreenState = "game end cutscene";
+    }
+
+    //currentRoom++;
+    // if (playerPositionRoomState === "start position one") {
+    //   playerPositionRoomState = "start position two";
+    // }
+    //playerPositionRoomState === "start position two";
+    // if (playerPositionRoomState === "start position one") {
+    //   playerPositionRoomState === "start position two";
+    //   console.log("2");
+    // }
+    //console.log("room" + currentRoom);
+  }
+  //   if (current === "room one") {
+  //     roomState = "room two";
+  //   }
+  //   else if (roomState === "room two") {
+  //     roomState = "room three";
+  //   }
+  // }
+
+  // if (squareX < 0) { 
+  //   console.log("test");
+  // }
+  // else if (squareY > height - squareSize) {
+  //   console.log("test2");
+  // }
+}
 
 
 //squareX > width - squareSize || squareY < 0 ||
@@ -623,13 +915,13 @@ function opponentAndLaserCollisionDetection(laser) {
     if (collideRectCircle(laser.x, laser.y, laser.w, laser.h, opponent.x, opponent.y, opponent.d)) {
       opponent.hp++;
     }
-    if (opponent.hp === 100) {
+    if (opponent.hp === 1000) {
       let index = opponentArray.indexOf(opponent);
       opponentArray.splice(index, 1);
     }
   }
 }
-
+//-----------------------------------
 
 // So far plan notes: Opponent and player interaction.  Room drawing/drawn, and checking collision with player.  Fix/clear code.
 
@@ -663,17 +955,18 @@ function opponentAndLaserCollisionDetection(laser) {
 //   createCanvas(windowWidth, windowHeight, WEBGL);
 //   debugMode();
 //   cellSize = height/12;
-//   gameGrid = generateGrid(boxX, boxY);
+//   //gameGrid = generateGrid(boxX, boxY);
 // }
 
 // function draw() {
 //   background(220);
 //   //circle(mouseX, mouseY, 100);
-//   //orbitControl();
-//   playerDisplay();
-//   camera(camX, camY, camZ);
-//   square(100, 200, 25);
-//   //gameBorder();
+//   orbitControl();
+//   charactersDisplay();
+//   //fill("green");
+//   //camera(camX, camY, camZ);
+//   //square(100, 200, 25);
+//   gameBorder();
 //   //sphereDisplay();
 //   //displayGrid();
 //   //box(25, 125, 25, 2, 100);
@@ -701,18 +994,38 @@ function opponentAndLaserCollisionDetection(laser) {
 //   }
 // }
 
-// function playerDisplay() {
-//   translate(boxX, boxY, boxZ);
+// function charactersDisplay() {
+//   push();
+//   translate(15, 0, 20);
+//   fill("green");
+//   sphere(40);
+//   pop();
+//   translate(boxX, boxY, boxZ + 150);
 //   fill("red");
 //   box();
 // }
 
 // function gameBorder() {
 //   push();
-//   translate(cylX, CYL_Y, cylZ);
+//   translate(100, 0, -350);
 //   fill("orange");
-//   box();
+//   box(1000, 500, 50);
 //   pop();
+//   push();
+//   translate(1000, 0, 50);
+//   fill("orange");
+//   box(800, 700, 1000);
+//   pop();
+//   // push();
+//   // translate(100, 0, 100);
+//   // fill("orange");
+//   // box(50, 500, 200);
+//   // pop();
+//   // push();
+//   // translate(-100, 0, 100);
+//   // fill("orange");
+//   // box(50, 500, 200);
+//   // pop();
 // }
 
 // function sphereDisplay() {
